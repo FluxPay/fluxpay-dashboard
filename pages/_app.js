@@ -5,10 +5,11 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { polygonMumbai, goerli } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import Navbar from '@/components/Navbar';
 
 const { chains, provider } = configureChains(
   [polygonMumbai, goerli],
-  [alchemyProvider({ apiKey: "KM1Kv-cqY7LlaPsoximQwOASxTzExuR5" }), publicProvider()]
+  [alchemyProvider({ apiKey: 'KM1Kv-cqY7LlaPsoximQwOASxTzExuR5' }), publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
+        <Navbar />
         <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>
