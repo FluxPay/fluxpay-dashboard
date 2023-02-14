@@ -1,11 +1,11 @@
-import '@/styles/globals.css';
+import '/styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { polygonMumbai, goerli } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import Navbar from '@/components/Navbar';
+import Navbar from '../components/Navbar';
 
 const { chains, provider } = configureChains(
   [polygonMumbai, goerli],

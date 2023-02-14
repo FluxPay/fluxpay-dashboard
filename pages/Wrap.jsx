@@ -55,10 +55,10 @@ const Wrap = (props) => {
             />
           </label>
           <div className="flex flex-row w-full mt-3 pr-2">
-            <button onClick={upgrade} className="btn btn-wide btn-primary mt-2 w-full w-1/2 mr-1">
+            <button onClick={upgrade} className="btn btn-wide btn-primary mt-2 w-1/2 mr-1">
               to fDAIx
             </button>
-            <button onClick={downgrade} className="btn btn-wide btn-primary mt-2 w-full w-1/2 ml-1">
+            <button onClick={downgrade} className="btn btn-wide btn-primary mt-2 w-1/2 ml-1">
               to fDAI
             </button>
           </div>
