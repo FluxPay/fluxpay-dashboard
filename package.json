@@ -13,7 +13,6 @@
     "@pushprotocol/restapi": "^0.3.0",
     "@rainbow-me/rainbowkit": "^0.8.1",
     "@superfluid-finance/sdk-core": "^0.6.1",
-    "dotenv": "^16.0.3",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
     "ethers": "^5.7.2",

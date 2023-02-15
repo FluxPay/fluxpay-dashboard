@@ -27,7 +27,7 @@ const Wrap = (props) => {
 
   const downgrade = async () => {
     const sf = await GetSF();
-    const FXPx = await sf.loadSuperToken('0xfa142e26300978c310d47e62b956939486408b0c');
+    const FXPx = await sf.loadSuperToken('0xfa142e26300978C310D47E62B956939486408B0c');
     const approve = FXPx.approve({
       receiver: FXPx.address || '0x0',
       amount: ethers.utils.parseEther(amount),
