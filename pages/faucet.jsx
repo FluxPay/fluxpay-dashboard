@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useAccount, useSigner, useProvider } from 'wagmi';
-// import { ethers } from 'ethers';
 import { ethers } from 'ethers/lib/index.js';
 import { ERC20ABI } from '../ABIs/ERC20ABI.js';
 import { ToastContainer, toast } from 'react-toastify';
@@ -44,7 +43,6 @@ const Faucet = (props) => {
   );
 
   const mintFXP = async () => {
-    // console.log(FXP);
     try {
       setLoading(true);
       await FXP.mintTo(ethers.utils.getAddress(address || '0x0'), ethers.utils.parseEther(amount || '0'));
