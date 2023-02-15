@@ -34,6 +34,88 @@ export const ERC20ABI = [
   },
   {
     "type": "event",
+    "name": "ClaimConditionsUpdated",
+    "inputs": [
+      {
+        "type": "tuple[]",
+        "name": "claimConditions",
+        "components": [
+          {
+            "type": "uint256",
+            "name": "startTimestamp",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "maxClaimableSupply",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "supplyClaimed",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "quantityLimitPerWallet",
+            "internalType": "uint256"
+          },
+          {
+            "type": "bytes32",
+            "name": "merkleRoot",
+            "internalType": "bytes32"
+          },
+          {
+            "type": "uint256",
+            "name": "pricePerToken",
+            "internalType": "uint256"
+          },
+          {
+            "type": "address",
+            "name": "currency",
+            "internalType": "address"
+          },
+          {
+            "type": "string",
+            "name": "metadata",
+            "internalType": "string"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct IClaimCondition.ClaimCondition[]"
+      },
+      {
+        "type": "bool",
+        "name": "resetEligibility",
+        "indexed": false,
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ContractURIUpdated",
+    "inputs": [
+      {
+        "type": "string",
+        "name": "prevURI",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "type": "string",
+        "name": "newURI",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "DelegateChanged",
     "inputs": [
       {
@@ -77,6 +159,34 @@ export const ERC20ABI = [
       {
         "type": "uint256",
         "name": "newBalance",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      {
+        "type": "uint8",
+        "name": "version",
+        "indexed": false,
+        "internalType": "uint8"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "MaxTotalSupplyUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "maxTotalSupply",
         "indexed": false,
         "internalType": "uint256"
       }
@@ -198,87 +308,37 @@ export const ERC20ABI = [
   },
   {
     "type": "event",
-    "name": "TokensMinted",
+    "name": "TokensClaimed",
     "inputs": [
       {
+        "type": "uint256",
+        "name": "claimConditionIndex",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
         "type": "address",
-        "name": "mintedTo",
+        "name": "claimer",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "address",
+        "name": "receiver",
         "indexed": true,
         "internalType": "address"
       },
       {
         "type": "uint256",
-        "name": "quantityMinted",
+        "name": "startTokenId",
         "indexed": false,
         "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "TokensMintedWithSignature",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "signer",
-        "indexed": true,
-        "internalType": "address"
       },
       {
-        "type": "address",
-        "name": "mintedTo",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "type": "tuple",
-        "name": "mintRequest",
-        "components": [
-          {
-            "type": "address",
-            "name": "to",
-            "internalType": "address"
-          },
-          {
-            "type": "address",
-            "name": "primarySaleRecipient",
-            "internalType": "address"
-          },
-          {
-            "type": "uint256",
-            "name": "quantity",
-            "internalType": "uint256"
-          },
-          {
-            "type": "uint256",
-            "name": "price",
-            "internalType": "uint256"
-          },
-          {
-            "type": "address",
-            "name": "currency",
-            "internalType": "address"
-          },
-          {
-            "type": "uint128",
-            "name": "validityStartTimestamp",
-            "internalType": "uint128"
-          },
-          {
-            "type": "uint128",
-            "name": "validityEndTimestamp",
-            "internalType": "uint128"
-          },
-          {
-            "type": "bytes32",
-            "name": "uid",
-            "internalType": "bytes32"
-          }
-        ],
+        "type": "uint256",
+        "name": "quantityClaimed",
         "indexed": false,
-        "internalType": "struct ITokenERC20.MintRequest"
+        "internalType": "uint256"
       }
     ],
     "outputs": [],
@@ -472,6 +532,84 @@ export const ERC20ABI = [
   },
   {
     "type": "function",
+    "name": "claim",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_receiver",
+        "internalType": "address"
+      },
+      {
+        "type": "uint256",
+        "name": "_quantity",
+        "internalType": "uint256"
+      },
+      {
+        "type": "address",
+        "name": "_currency",
+        "internalType": "address"
+      },
+      {
+        "type": "uint256",
+        "name": "_pricePerToken",
+        "internalType": "uint256"
+      },
+      {
+        "type": "tuple",
+        "name": "_allowlistProof",
+        "components": [
+          {
+            "type": "bytes32[]",
+            "name": "proof",
+            "internalType": "bytes32[]"
+          },
+          {
+            "type": "uint256",
+            "name": "quantityLimitPerWallet",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "pricePerToken",
+            "internalType": "uint256"
+          },
+          {
+            "type": "address",
+            "name": "currency",
+            "internalType": "address"
+          }
+        ],
+        "internalType": "struct IDrop.AllowlistProof"
+      },
+      {
+        "type": "bytes",
+        "name": "_data",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "claimCondition",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "currentStartId",
+        "internalType": "uint256"
+      },
+      {
+        "type": "uint256",
+        "name": "count",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "contractType",
     "inputs": [],
     "outputs": [
@@ -618,6 +756,80 @@ export const ERC20ABI = [
   },
   {
     "type": "function",
+    "name": "getActiveClaimConditionId",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getClaimConditionById",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_conditionId",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "tuple",
+        "name": "condition",
+        "components": [
+          {
+            "type": "uint256",
+            "name": "startTimestamp",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "maxClaimableSupply",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "supplyClaimed",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "quantityLimitPerWallet",
+            "internalType": "uint256"
+          },
+          {
+            "type": "bytes32",
+            "name": "merkleRoot",
+            "internalType": "bytes32"
+          },
+          {
+            "type": "uint256",
+            "name": "pricePerToken",
+            "internalType": "uint256"
+          },
+          {
+            "type": "address",
+            "name": "currency",
+            "internalType": "address"
+          },
+          {
+            "type": "string",
+            "name": "metadata",
+            "internalType": "string"
+          }
+        ],
+        "internalType": "struct IClaimCondition.ClaimCondition"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "getPastTotalSupply",
     "inputs": [
       {
@@ -714,7 +926,7 @@ export const ERC20ABI = [
     "outputs": [
       {
         "type": "address",
-        "name": "",
+        "name": "member",
         "internalType": "address"
       }
     ],
@@ -733,7 +945,31 @@ export const ERC20ABI = [
     "outputs": [
       {
         "type": "uint256",
-        "name": "",
+        "name": "count",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getSupplyClaimedByWallet",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_conditionId",
+        "internalType": "uint256"
+      },
+      {
+        "type": "address",
+        "name": "_claimer",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "supplyClaimedByWallet",
         "internalType": "uint256"
       }
     ],
@@ -779,6 +1015,30 @@ export const ERC20ABI = [
   {
     "type": "function",
     "name": "hasRole",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "role",
+        "internalType": "bytes32"
+      },
+      {
+        "type": "address",
+        "name": "account",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "hasRoleWithSwitch",
     "inputs": [
       {
         "type": "bytes32",
@@ -855,7 +1115,7 @@ export const ERC20ABI = [
       },
       {
         "type": "address",
-        "name": "_primarySaleRecipient",
+        "name": "_saleRecipient",
         "internalType": "address"
       },
       {
@@ -864,9 +1124,9 @@ export const ERC20ABI = [
         "internalType": "address"
       },
       {
-        "type": "uint256",
+        "type": "uint128",
         "name": "_platformFeeBps",
-        "internalType": "uint256"
+        "internalType": "uint128"
       }
     ],
     "outputs": [],
@@ -893,81 +1153,16 @@ export const ERC20ABI = [
   },
   {
     "type": "function",
-    "name": "mintTo",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "to",
-        "internalType": "address"
-      },
+    "name": "maxTotalSupply",
+    "inputs": [],
+    "outputs": [
       {
         "type": "uint256",
-        "name": "amount",
+        "name": "",
         "internalType": "uint256"
       }
     ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "mintWithSignature",
-    "inputs": [
-      {
-        "type": "tuple",
-        "name": "_req",
-        "components": [
-          {
-            "type": "address",
-            "name": "to",
-            "internalType": "address"
-          },
-          {
-            "type": "address",
-            "name": "primarySaleRecipient",
-            "internalType": "address"
-          },
-          {
-            "type": "uint256",
-            "name": "quantity",
-            "internalType": "uint256"
-          },
-          {
-            "type": "uint256",
-            "name": "price",
-            "internalType": "uint256"
-          },
-          {
-            "type": "address",
-            "name": "currency",
-            "internalType": "address"
-          },
-          {
-            "type": "uint128",
-            "name": "validityStartTimestamp",
-            "internalType": "uint128"
-          },
-          {
-            "type": "uint128",
-            "name": "validityEndTimestamp",
-            "internalType": "uint128"
-          },
-          {
-            "type": "bytes32",
-            "name": "uid",
-            "internalType": "bytes32"
-          }
-        ],
-        "internalType": "struct ITokenERC20.MintRequest"
-      },
-      {
-        "type": "bytes",
-        "name": "_signature",
-        "internalType": "bytes"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "payable"
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -1133,12 +1328,85 @@ export const ERC20ABI = [
   },
   {
     "type": "function",
+    "name": "setClaimConditions",
+    "inputs": [
+      {
+        "type": "tuple[]",
+        "name": "_conditions",
+        "components": [
+          {
+            "type": "uint256",
+            "name": "startTimestamp",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "maxClaimableSupply",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "supplyClaimed",
+            "internalType": "uint256"
+          },
+          {
+            "type": "uint256",
+            "name": "quantityLimitPerWallet",
+            "internalType": "uint256"
+          },
+          {
+            "type": "bytes32",
+            "name": "merkleRoot",
+            "internalType": "bytes32"
+          },
+          {
+            "type": "uint256",
+            "name": "pricePerToken",
+            "internalType": "uint256"
+          },
+          {
+            "type": "address",
+            "name": "currency",
+            "internalType": "address"
+          },
+          {
+            "type": "string",
+            "name": "metadata",
+            "internalType": "string"
+          }
+        ],
+        "internalType": "struct IClaimCondition.ClaimCondition[]"
+      },
+      {
+        "type": "bool",
+        "name": "_resetClaimEligibility",
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "setContractURI",
     "inputs": [
       {
         "type": "string",
         "name": "_uri",
         "internalType": "string"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setMaxTotalSupply",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_maxTotalSupply",
+        "internalType": "uint256"
       }
     ],
     "outputs": [],
@@ -1174,25 +1442,6 @@ export const ERC20ABI = [
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "supportsInterface",
-    "inputs": [
-      {
-        "type": "bytes4",
-        "name": "interfaceId",
-        "internalType": "bytes4"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "",
-        "internalType": "bool"
-      }
-    ],
-    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -1275,71 +1524,66 @@ export const ERC20ABI = [
   },
   {
     "type": "function",
-    "name": "verify",
+    "name": "verifyClaim",
     "inputs": [
       {
+        "type": "uint256",
+        "name": "_conditionId",
+        "internalType": "uint256"
+      },
+      {
+        "type": "address",
+        "name": "_claimer",
+        "internalType": "address"
+      },
+      {
+        "type": "uint256",
+        "name": "_quantity",
+        "internalType": "uint256"
+      },
+      {
+        "type": "address",
+        "name": "_currency",
+        "internalType": "address"
+      },
+      {
+        "type": "uint256",
+        "name": "_pricePerToken",
+        "internalType": "uint256"
+      },
+      {
         "type": "tuple",
-        "name": "_req",
+        "name": "_allowlistProof",
         "components": [
           {
-            "type": "address",
-            "name": "to",
-            "internalType": "address"
-          },
-          {
-            "type": "address",
-            "name": "primarySaleRecipient",
-            "internalType": "address"
+            "type": "bytes32[]",
+            "name": "proof",
+            "internalType": "bytes32[]"
           },
           {
             "type": "uint256",
-            "name": "quantity",
+            "name": "quantityLimitPerWallet",
             "internalType": "uint256"
           },
           {
             "type": "uint256",
-            "name": "price",
+            "name": "pricePerToken",
             "internalType": "uint256"
           },
           {
             "type": "address",
             "name": "currency",
             "internalType": "address"
-          },
-          {
-            "type": "uint128",
-            "name": "validityStartTimestamp",
-            "internalType": "uint128"
-          },
-          {
-            "type": "uint128",
-            "name": "validityEndTimestamp",
-            "internalType": "uint128"
-          },
-          {
-            "type": "bytes32",
-            "name": "uid",
-            "internalType": "bytes32"
           }
         ],
-        "internalType": "struct ITokenERC20.MintRequest"
-      },
-      {
-        "type": "bytes",
-        "name": "_signature",
-        "internalType": "bytes"
+        "internalType": "struct IDrop.AllowlistProof"
       }
     ],
     "outputs": [
       {
         "type": "bool",
-        "name": "",
+        "name": "isOverride",
         "internalType": "bool"
-      },
-      {
-        "type": "address",
-        "name": "",
-        "internalType": "address"
       }
     ],
     "stateMutability": "view"

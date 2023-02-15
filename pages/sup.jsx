@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
-import { address, ABI } from '../constant/index.js';
+import { super_address } from '../Addresses/index.js';
+import { SuperTokenWrapperABI } from '../ABIs/SuperTokenWrapper.js';
 import { useAccount, useSigner, useProvider } from 'wagmi';
 
 function sup () {
@@ -13,7 +14,7 @@ function sup () {
     console.log(signer);
     console.log(provider);
     
-    const contract = new ethers.Contract(address, ABI, signer || provider || undefined);
+    const contract = new ethers.Contract(super_address, SuperTokenWrapperABI, signer || provider || undefined);
 
     console.log(contract);
     const tx = await contract.createERC20Wrapper(

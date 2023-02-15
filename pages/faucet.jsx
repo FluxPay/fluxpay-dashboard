@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAccount, useSigner, useProvider } from 'wagmi';
 import { ethers } from 'ethers/lib/index.js';
 import { ERC20ABI } from '../ABIs/ERC20ABI.js';
+import { FXP_token_address } from '../Addresses/index.js';
 import { ToastContainer, toast } from 'react-toastify';
 
 const Faucet = (props) => {
@@ -37,7 +38,7 @@ const Faucet = (props) => {
     });
 
   const FXP = new ethers.Contract(
-    '0x262A2B8B05F0D91AC53b97c62E71D41Ae3ED59e2',
+    FXP_token_address,
     ERC20ABI,
     signer || provider || undefined
   );
@@ -45,7 +46,7 @@ const Faucet = (props) => {
   const mintFXP = async () => {
     try {
       setLoading(true);
-      await FXP.mintTo(ethers.utils.getAddress(address || '0x0'), ethers.utils.parseEther(amount || '0'));
+      await FXP.claimTo(ethers.utils.getAddress(address || '0x0'), ethers.utils.parseEther(amount || '0'));
       setLoading(false);
       success();
     } catch (e) {
