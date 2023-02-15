@@ -12,28 +12,29 @@ const Wrap = (props) => {
 
   const upgrade = async () => {
     const sf = await GetSF();
-    const fdaix = await sf.loadSuperToken('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00');
-    const fdai = fdaix?.underlyingToken;
-    const approve = fdai.approve({
-      receiver: fdaix.address || '0x0',
+    const FXPx = await sf.loadSuperToken('0xfa142e26300978c310d47e62b956939486408b0c');
+    const FXP = FXPx?.underlyingToken;
+    const approve = FXP.approve({
+      receiver: FXPx.address || '0x0',
       amount: ethers.utils.parseEther(amount),
     });
     const apv = await approve.exec(signer);
     await apv.wait();
-    const op = fdaix.upgrade({ amount: ethers.utils.parseEther(amount) });
+
+    const op = FXPx.upgrade({ amount: ethers.utils.parseEther(amount) });
     const res = op.exec(signer);
   };
 
   const downgrade = async () => {
     const sf = await GetSF();
-    const fdaix = await sf.loadSuperToken('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00');
-    const approve = fdaix.approve({
-      receiver: fdaix.address || '0x0',
+    const FXPx = await sf.loadSuperToken('0xfa142e26300978c310d47e62b956939486408b0c');
+    const approve = FXPx.approve({
+      receiver: FXPx.address || '0x0',
       amount: ethers.utils.parseEther(amount),
     });
     const apv = await approve.exec(signer);
     await apv.wait();
-    const op = fdaix.downgrade({ amount: ethers.utils.parseEther(amount) });
+    const op = FXPx.downgrade({ amount: ethers.utils.parseEther(amount) });
     const res = op.exec(signer);
   };
 
@@ -56,10 +57,10 @@ const Wrap = (props) => {
           </label>
           <div className="flex flex-row w-full mt-3 pr-2">
             <button onClick={upgrade} className="btn btn-wide btn-primary mt-2 w-1/2 mr-1">
-              to fDAIx
+              to FXPx
             </button>
             <button onClick={downgrade} className="btn btn-wide btn-primary mt-2 w-1/2 ml-1">
-              to fDAI
+              to FXP
             </button>
           </div>
         </div>
