@@ -18,10 +18,10 @@ function sup () {
 
     console.log(contract);
     const tx = await contract.createERC20Wrapper(
-      ethers.utils.getAddress('0x1BE3c6c0a4102041f829925cd9cDE156F9Bc7499'),
+      '0xa177753Ad7b2847142631e76C65888c5a1390D17',
       1,
-      'Super minddao',
-      'minddaox'
+      'Super fluxpay',
+      'FXPx'
     );
     await tx.wait();
     console.log(tx);
