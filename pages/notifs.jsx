@@ -10,7 +10,7 @@ const Notifs = (props) => {
   const turnonNotifs = async () => {
     await PushAPI.channels.subscribe({
       signer: signer,
-      channelAddress: 'eip155:80001:0xEdEFD55a9674550669Bdfe304f8d5c725b0817dF', // channel address in CAIP
+      channelAddress: 'eip155:80001:0x42066368D2b1c06E32e34c8A264a4fe7acE29606', // channel address in CAIP
       userAddress: `eip155:80001:${address}`, // user address in CAIP
       onSuccess: () => {
         // console('opt in success');
