@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import GetSF from '../hooks/GetSF';
 import { useAccount, useSigner } from 'wagmi';
-import { ERC20Token } from '@superfluid-finance/sdk-core';
 
 const Wrap = (props) => {
   const [amount, setAmount] = useState('0');
