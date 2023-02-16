@@ -7,21 +7,67 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import Navbar from '../components/Navbar';
 
+
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
+import { ArcanaConnector } from "@arcana/auth-wagmi";
+
+export const ArcanaRainbowConnector = ({ chains }) => {
+  return {
+    id: "arcana-auth",
+    name: "Arcana Wallet",
+    iconUrl: "",
+    iconBackground: "#101010",
+    createConnector: () => {
+      const connector = new ArcanaConnector({
+        chains,
+        options: {
+          // appId parameter refers to App Address value in the Dashboard
+          appId: "7f346f625c0a6e4b7fc7cedaf7a45e64ded001c9",
+        },
+      });
+      return {
+        connector,
+      };
+    },
+  };
+};
+
+const connectors = (chains) =>
+  connectorsForWallets([
+    {
+      groupName: "Recommended",
+      wallets: [ArcanaRainbowConnector({ chains }), metaMaskWallet({ chains })],
+    },
+  ]);
+
 const { chains, provider } = configureChains(
   [polygonMumbai, goerli],
   [alchemyProvider({ apiKey: 'KM1Kv-cqY7LlaPsoximQwOASxTzExuR5' }), publicProvider()]
 );
 
-const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
-  chains,
-});
-
 const wagmiClient = createClient({
   autoConnect: true,
-  connectors,
+  connectors: connectors(chains),
   provider,
 });
+
+
+// const { chains, provider } = configureChains(
+//   [polygonMumbai, goerli],
+//   [alchemyProvider({ apiKey: 'KM1Kv-cqY7LlaPsoximQwOASxTzExuR5' }), publicProvider()]
+// );
+
+// const { connectors } = getDefaultWallets({
+//   appName: 'My RainbowKit App',
+//   chains,
+// });
+
+// const wagmiClient = createClient({
+//   autoConnect: true,
+//   connectors,
+//   provider,
+// });
 
 export default function App({ Component, pageProps }) {
   return (

@@ -1,13 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { ethers } from 'ethers';
-import { address, ABI } from '../constant/index.js';
-import { superToken } from '../components/super.jsx';
 
-const fn = async () => {
-  await superToken();
-};
 export default function Home() {
   return (
     <>
@@ -18,7 +11,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <button onClick={fn}>Super </button>
         <p>!</p>
       </main>
     </>
