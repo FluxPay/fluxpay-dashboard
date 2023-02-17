@@ -26,7 +26,7 @@ const Wrap = (props) => {
 
     const op = FXPx.upgrade({ amount: ethers.utils.parseEther(amount) });
     const res = op.exec(signer);
-    consoel.log(res)
+    console.log(res)
   };
 
   const downgrade = async () => {
@@ -40,7 +40,7 @@ const Wrap = (props) => {
     await apv.wait();
     const op = FXPx.downgrade({ amount: ethers.utils.parseEther(amount) });
     const res = op.exec(signer);
-    consoel.log(res)
+    console.log(res)
   };
 
   return (
