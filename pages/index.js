@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useSigner, useProvider, useAccount } from 'wagmi'
 import { ethers } from 'ethers';
 import { useState, useEffect } from 'react';
@@ -36,6 +35,20 @@ export default function Home() {
         <div className="w-full flex my-24 justify-between items-center">
           <span>Simplify your DAO payroll using Fluxpay</span>
           <Link href="/register" className="btn">Register Now!</Link>
+        </div>
+      </section>
+      <section>
+        <div className="w-full flex flex-wrap items-center">
+          {daos && daos.map(dao => (
+            <div className="w-72 flex flex-col border-2 border-grey-100 rounded-md shadow-md cursor-pointer mx-4 my-8">
+              <div className="w-full h-48">
+                <img className="mx-auto h-full object-cover" width={200} height={200} src={dao.image} alt="dao"/>
+              </div>
+              <h2 className="py-4 bg-fgreen text-center text-white text-xl font-bold">
+                {dao.title}
+              </h2>
+            </div>
+          ))}
         </div>
       </section>
     </>
