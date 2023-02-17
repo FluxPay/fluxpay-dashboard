@@ -40,14 +40,14 @@ export default function Home() {
       <section>
         <div className="w-full flex flex-wrap items-center">
           {daos && daos.map(dao => (
-            <div className="w-72 flex flex-col border-2 border-grey-100 rounded-md shadow-md cursor-pointer mx-4 my-8">
+            <Link href={"/" + dao.title.toLowerCase().split(' ').join('-')} className="w-72 flex flex-col border-2 border-grey-100 rounded-md shadow-md cursor-pointer mx-4 my-8">
               <div className="w-full h-48">
-                <img className="mx-auto h-full object-cover" width={200} height={200} src={dao.image} alt="dao"/>
+                <img className="w-full h-full object-cover" width={200} height={200} src={dao.image} alt="dao"/>
               </div>
               <h2 className="py-4 bg-fgreen text-center text-white text-xl font-bold">
                 {dao.title}
               </h2>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
