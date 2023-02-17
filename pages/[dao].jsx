@@ -1,9 +1,11 @@
 import { useRouter } from "next/router"
 import { useSigner, useProvider, useAccount } from 'wagmi'
 import { FluxPayABI } from '../ABIs/Fluxpay';
-import { fluxpay_address } from '../Addresses';
+import { fluxpay_address, Pool_address, PoolMaster_address } from '../Addresses';
 import { ethers } from 'ethers';
 import { useState, useEffect } from "react";
+import { PoolABI } from "../ABIs/PoolABI";
+import { PoolMasterABI } from "../ABIs/PoolMasterABI";
 
 export default function Dao() {
   const router = useRouter()
@@ -32,6 +34,12 @@ export default function Dao() {
     const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
     let registeredDaos = await fluxpayContract.getDaos();
     setDaos(registeredDaos);
+  }
+
+  const createPayroll = async () => {
+    const poolMasterContract = new ethers.Contract(PoolMaster_address, PoolMasterABI, signer || provider);
+    let tx = await poolMasterContract.createTap(curDao.title, Number(flow), nftAddress, curDao.currency);
+    console.log(tx);
   }
 
   useEffect(() => {
@@ -74,7 +82,7 @@ export default function Dao() {
                   <label htmlFor="nft">NFT Address</label>
                   <input className="border-2 border-gray-200 p-2" id="nft" type="text" placeholder="NFT Collection Address" value={nftAddress} onChange={e => setNftAddress(e.target.value)} required/>
                 </div>
-                <button className="btn">Create</button>
+                <button className="btn" onClick={createPayroll}>Create</button>
               </div>
             ) : null
           }
