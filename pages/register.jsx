@@ -1,6 +1,24 @@
 import Head from 'next/head'
+import { useSigner, useProvider } from 'wagmi'
+import { FluxPayABI } from '../ABIs/Fluxpay';
+import { fluxpay_address } from '../Addresses';
 
 export default function Register() {
+  const { data: signer } = useSigner();
+  const provider = useProvider();
+  const { address } = useAccount();
+
+  const submitForm = async () => {
+    
+    
+    const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
+
+    console.log('Creating a DAO...');
+    let tx = await fluxpayContract.createDAO();
+    let rx = await tx.wait();
+    console.log(rx);
+  };
+
   return (
     <>
       <Head>
