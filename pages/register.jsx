@@ -47,5 +47,3 @@ export default function Register() {
     </>
   )
 }
-
-/* Name, Description, Image url, currency */
