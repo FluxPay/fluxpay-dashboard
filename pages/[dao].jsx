@@ -17,6 +17,9 @@ export default function Dao() {
   const { address } = useAccount();
   const [isAdmin, setIsAdmin] = useState(false)
 
+  const [flow, setFlow] = useState('')
+  const [nftAddress, setNftAddress] = useState('')
+
   const checkAdmin = (tempdao) => {
     if (tempdao.owner === address) {
       setIsAdmin(true)
@@ -43,6 +46,10 @@ export default function Dao() {
     }
   }, [daos])
 
+  useEffect(() => {
+    if (address && curDao) checkAdmin(curDao)
+  }, [address])
+
   return (
     <section>
       {curDao && (
@@ -51,18 +58,21 @@ export default function Dao() {
             <div className="w-[25%] ">
               <img className="w-full h-full object-cover" src={curDao.image} alt="dao"/>
             </div>
-          <p className="w-[70%] text-lg">{curDao.description}</p>
+          <div className="w-[70%]">
+            <h1 className="text-xl font-bold">{curDao.title}</h1>
+            <p className="text-lg my-2">{curDao.description}</p>
+          </div>
           </div>
           {isAdmin ? (
               <div className="w-full flex flex-col my-8 space-y-4">
-                <h1 className="text-fgreen text-2xl font-bold">Start Payroll</h1>
+                <h2 className="text-fgreen text-2xl font-bold">Start Payroll</h2>
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="flow">Flow Rate</label>
-                  <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second"/>
+                  <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second" value={flow} onChange={e => setFlow(e.target.value)} required/>
                 </div>
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="nft">NFT Address</label>
-                  <input className="border-2 border-gray-200 p-2" id="nft" type="text" placeholder="NFT Collection Address"/>
+                  <input className="border-2 border-gray-200 p-2" id="nft" type="text" placeholder="NFT Collection Address" value={nftAddress} onChange={e => setNftAddress(e.target.value)} required/>
                 </div>
                 <button className="btn">Create</button>
               </div>

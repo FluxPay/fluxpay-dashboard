@@ -32,7 +32,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section>
-        <div className="w-full flex my-24 justify-between items-center">
+        <div className="w-full flex my-24 p-4 justify-between items-center bg-gray-200 border-2 border-gray-400 rounded-lg">
           <span>Simplify your DAO payroll using Fluxpay</span>
           <Link href="/register" className="btn">Register Now!</Link>
         </div>
