@@ -2,24 +2,6 @@ export const FluxPayABI = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "_visible",
-        "type": "bool"
-      }
-    ],
-    "name": "changeVisiblity",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "_owner",
         "type": "address"
@@ -87,9 +69,9 @@ export const FluxPayABI = [
         "type": "string"
       },
       {
-        "internalType": "bool",
-        "name": "visible",
-        "type": "bool"
+        "internalType": "address",
+        "name": "poolAddress",
+        "type": "address"
       },
       {
         "internalType": "address",
@@ -98,19 +80,6 @@ export const FluxPayABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "donateToDao",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -140,24 +109,14 @@ export const FluxPayABI = [
             "type": "string"
           },
           {
-            "internalType": "bool",
-            "name": "visible",
-            "type": "bool"
+            "internalType": "address",
+            "name": "poolAddress",
+            "type": "address"
           },
           {
             "internalType": "address",
             "name": "currency",
             "type": "address"
-          },
-          {
-            "internalType": "address[]",
-            "name": "donators",
-            "type": "address[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "donations",
-            "type": "uint256[]"
           }
         ],
         "internalType": "struct FluxPay.Dao[]",
@@ -169,24 +128,45 @@ export const FluxPayABI = [
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "getDonators",
+    "inputs": [],
+    "name": "getMyDaos",
     "outputs": [
       {
-        "internalType": "address[]",
+        "components": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "image",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "poolAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "currency",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct FluxPay.Dao[]",
         "name": "",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -204,5 +184,23 @@ export const FluxPayABI = [
     ],
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_poolAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setPoolAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
-]
+];
