@@ -7,6 +7,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import Navbar from '../components/Navbar';
 
+import { DM_Sans } from '@next/font/google'
 
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
@@ -69,13 +70,20 @@ const wagmiClient = createClient({
 //   provider,
 // });
 
+const dmsans = DM_Sans({
+  weight: ['400', '500', '700'],
+  subsets: ['latin']
+})
+
 export default function App({ Component, pageProps }) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Navbar />
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <main className={dmsans.className}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <Navbar />
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </main>
   );
 }
