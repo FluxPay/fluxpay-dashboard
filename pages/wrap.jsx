@@ -11,7 +11,7 @@ const Wrap = (props) => {
 
   const upgrade = async () => {
     const sf = await GetSF();
-    const FXPx = await sf.loadSuperToken('0xfa142e26300978c310d47e62b956939486408b0c');
+    const FXPx = await sf.loadSuperToken('0x25963b81595626b807d635544bf4bcbffbb262d8');
     const FXP = FXPx?.underlyingToken;
     const approve = FXP.approve({
       receiver: FXPx.address || '0x0',
@@ -26,7 +26,7 @@ const Wrap = (props) => {
 
   const downgrade = async () => {
     const sf = await GetSF();
-    const FXPx = await sf.loadSuperToken('0xfa142e26300978C310D47E62B956939486408B0c');
+    const FXPx = await sf.loadSuperToken('0x25963b81595626b807d635544bf4bcbffbb262d8');
     const approve = FXPx.approve({
       receiver: FXPx.address || '0x0',
       amount: ethers.utils.parseEther(amount),
