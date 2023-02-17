@@ -4,16 +4,18 @@ import GetSF from '../hooks/GetSF';
 import { useAccount, useSigner } from 'wagmi';
 
 const Wrap = (props) => {
-  const [amount, setAmount] = useState('0');
+  const [amount, setAmount] = useState('');
   const [custom, setCustom] = useState(false)
   const [inputAddress, setInputAddress] = useState('')
+
+  const fxpxAddress = '0x25963b81595626b807d635544bf4bcbffbb262d8'
 
   const { data: signer } = useSigner();
   const { address } = useAccount();
 
   const upgrade = async () => {
     const sf = await GetSF();
-    const FXPx = await sf.loadSuperToken('0x25963b81595626b807d635544bf4bcbffbb262d8');
+    const FXPx = await sf.loadSuperToken(custom ? inputAddress : fxpxAddress);
     const FXP = FXPx?.underlyingToken;
     const approve = FXP.approve({
       receiver: FXPx.address || '0x0',
@@ -28,7 +30,7 @@ const Wrap = (props) => {
 
   const downgrade = async () => {
     const sf = await GetSF();
-    const FXPx = await sf.loadSuperToken('0x25963b81595626b807d635544bf4bcbffbb262d8');
+    const FXPx = await sf.loadSuperToken(custom ? inputAddress : fxpxAddress);
     const approve = FXPx.approve({
       receiver: FXPx.address || '0x0',
       amount: ethers.utils.parseEther(amount),
