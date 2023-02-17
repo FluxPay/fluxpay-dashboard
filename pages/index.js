@@ -1,5 +1,6 @@
-import Head from 'next/head';
-import Image from 'next/image';
+import Head from 'next/head'
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Home() {
   return (
@@ -10,9 +11,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <p>!</p>
-      </main>
+      <section>
+        <div className="w-full flex my-24 justify-between items-center">
+          <span>Simplify your DAO payroll using Fluxpay</span>
+          <Link href="/register" className="font-bold px-4 py-2 bg-fgreen text-white rounded-md">Register Now!</Link>
+        </div>
+      </section>
     </>
   );
 }
