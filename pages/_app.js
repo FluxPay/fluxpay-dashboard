@@ -53,23 +53,6 @@ const wagmiClient = createClient({
   provider,
 });
 
-
-// const { chains, provider } = configureChains(
-//   [polygonMumbai, goerli],
-//   [alchemyProvider({ apiKey: 'KM1Kv-cqY7LlaPsoximQwOASxTzExuR5' }), publicProvider()]
-// );
-
-// const { connectors } = getDefaultWallets({
-//   appName: 'My RainbowKit App',
-//   chains,
-// });
-
-// const wagmiClient = createClient({
-//   autoConnect: true,
-//   connectors,
-//   provider,
-// });
-
 const dmsans = DM_Sans({
   weight: ['400', '500', '700'],
   subsets: ['latin']
