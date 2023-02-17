@@ -14,7 +14,7 @@ export default function Home() {
       <section>
         <div className="w-full flex my-24 justify-between items-center">
           <span>Simplify your DAO payroll using Fluxpay</span>
-          <Link href="/register" className="font-bold px-4 py-2 bg-fgreen text-white rounded-md">Register Now!</Link>
+          <Link href="/register" className="btn">Register Now!</Link>
         </div>
       </section>
     </>
