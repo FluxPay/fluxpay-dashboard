@@ -16,11 +16,15 @@ export default function Register() {
   const [currency, setCurrency] = useState('0x25963b81595626b807d635544bf4bcbffbb262d8')
 
   const submitForm = async () => {
-    const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
-    console.log('Creating a DAO...');
-    let tx = await fluxpayContract.createDao(address, name, desc, image, currency);
-    let rx = await tx.wait();
-    console.log(rx);
+    try {
+      const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
+      console.log('Creating a DAO...');
+      let tx = await fluxpayContract.createDao(address, name, desc, image, currency);
+      let rx = await tx.wait();
+      console.log(rx);
+    } catch(err) {
+      console.log(err)
+    }
   };
 
   return (
