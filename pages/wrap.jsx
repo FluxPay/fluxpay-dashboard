@@ -5,6 +5,8 @@ import { useAccount, useSigner } from 'wagmi';
 
 const Wrap = (props) => {
   const [amount, setAmount] = useState('0');
+  const [custom, setCustom] = useState(false)
+  const [inputAddress, setInputAddress] = useState('')
 
   const { data: signer } = useSigner();
   const { address } = useAccount();
@@ -38,33 +40,41 @@ const Wrap = (props) => {
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen bg-base items-center justify-center text-black pl-[10%] ">
-      <div className="flex flex-col artboard artboard-horizontal phone-2 bg-white rounded-2xl shadow-lg items-center justify-center">
-        <p className="text-[1.5vmax] font-bold text-primary">Wrap/Unwrap</p>
-        <div className="divider"></div>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Enter amount</span>
-          </label>
-          <label className="input-group">
-            <input
-              type="text"
-              placeholder="0.01"
-              className="input input-bordered"
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </label>
-          <div className="flex flex-row w-full mt-3 pr-2">
-            <button onClick={upgrade} className="btn btn-wide btn-primary mt-2 w-1/2 mr-1">
-              to FXPx
-            </button>
-            <button onClick={downgrade} className="btn btn-wide btn-primary mt-2 w-1/2 ml-1">
-              to FXP
-            </button>
-          </div>
+    <section>
+      <div className="w-full max-w-screen-sm flex flex-col bg-white rounded-2xl shadow-lg items-center justify-center mx-auto my-36 border-2 border-gray-100 p-8 space-y-8">
+        <p className="text-xl font-bold text-primary">Wrap / Unwrap</p>
+        <div className="flex w-1/2 border-2 border-gray-200 cursor-pointer">
+          <span className={"w-1/2 px-4 py-2 text-center" + (custom ? " bg-white" : " bg-fgreen text-white")} onClick={() => setCustom(false)}>Default</span>
+          <span className={"w-1/2 px-4 py-2 text-center" + (!custom ? " bg-white" : " bg-fgreen text-white")} onClick={() => setCustom(true)}>Custom</span>
+        </div>
+        {custom && <div className="w-3/4 flex justify-between space-x-2">
+          <label className="mx-2 text-lg">Address</label>
+          <input
+            type="text"
+            placeholder="0x..."
+            value={inputAddress}
+            onChange={e => setInputAddress(e.target.value)}
+          />
+        </div>}
+        <div className="w-3/4 flex justify-between space-x-2">
+          <label className="mx-2 text-lg">Enter amount</label>
+          <input
+            type="text"
+            placeholder="0.01"
+            value={amount}
+            onChange={e => setAmount(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-row w-full mt-3 pr-2">
+          <button onClick={upgrade} className="btn mt-2 w-1/2 mr-1">
+            to {custom ? "Super Token" : "FXPx"}
+          </button>
+          <button onClick={downgrade} className="btn mt-2 w-1/2 ml-1">
+            to {custom ? "Simple Token" : "FXP"}
+          </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
