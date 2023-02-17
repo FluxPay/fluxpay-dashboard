@@ -16,28 +16,28 @@ function sup() {
     console.log(signer);
     console.log(provider);
 
-    const super_contract = new ethers.Contract(super_address, SuperTokenWrapperABI, signer);
+    const SuperTokenFactoryABI = [
+      'function createERC20Wrapper(address underlyingToken, uint8 upgradability, string calldata name, string calldata symbol) external override returns (address superToken)',
+    ];
+    const SuperTokenFactoryAddr = '0x200657E2f123761662567A1744f9ACAe50dF47E6'; // NOTE: this is the address of the proxy for polygon mainnet - get your addr from here https://docs.superfluid.finance/superfluid/developers/super-tokens/deployment#using-a-block-explorer-to-deploy-your-wrapper
+    const stfInstance = new ethers.Contract(SuperTokenFactoryAddr, SuperTokenFactoryABI, signer);
 
-    console.log(super_contract);
-    const tx = await super_contract.createERC20Wrapper(
-      '0xa177753Ad7b2847142631e76C65888c5a1390D17',
-      1,
-      'Super fluxpay',
-      'FXPx'
-    );
+    const superTokenSymbol = 'FXPx';
+    const superTokenName = 'Super Fluxpay Token';
+    const underlyingTokenAddr = '0xa177753Ad7b2847142631e76C65888c5a1390D17'; // NOTE: change this to your underlying token's addr
 
-    // const cont = new ethers.Contract('0x88271d333C72e51516B67f5567c728E702b3eeE8', ERC20ABI, signer);
-
-    // console.log(cont);
-    // await cont.mint(ethers.utils.getAddress(address || '0x0'), ethers.utils.parseEther('20' || '0'));
-
-    // await tx.wait();
-    // console.log(tx);
+    console.log('Creating the wrapper...');
+    let tx = await stfInstance.createERC20Wrapper(underlyingTokenAddr, 1, superTokenName, superTokenSymbol);
+    let rx = await tx.wait();
+    console.log(rx);
+    console.log(rx.events[2].address);
   };
 
   return (
     <div>
-      <button onClick={mint}>Super</button>
+      <button onClick={mint} className="my-24">
+        Super
+      </button>
     </div>
   );
 }
