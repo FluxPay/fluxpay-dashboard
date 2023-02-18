@@ -17,14 +17,16 @@ export default function Register() {
   const [currency, setCurrency] = useState('0x25963b81595626b807d635544bf4bcbffbb262d8')
 
   const PK = (process.env.NEXT_PUBLIC_PK).toString(); // channel private key
-  console.log(PK);
+  // console.log(PK);
   const Pkey = `0x${PK}`;
+  // console.log(Pkey);
+  const pushSigner = new ethers.Wallet(Pkey);
 
   const sendNotification = async () => {
     try {
       console.log('Sending notification...');
       const apiResponse = await PushAPI.payloads.sendNotification({
-        signer,
+        pushSigner,
         type: 1, // broadcast
         identityType: 2, // direct payload
         notification: {
@@ -81,6 +83,7 @@ export default function Register() {
           <label className="mt-4" htmlFor="currency">Currency</label>
           <input className="border-2 p-2 my-2 rounded-sm" id="currency" type="text" placeholder="DAO Currency" value={currency} onChange={e => setCurrency(e.target.value)}/>
           <button className="btn my-8" onClick={submitForm}>Register</button>
+          <button className="btn my-8" onClick={sendNotification}>Register</button>
         </div>
       </section>
     </>

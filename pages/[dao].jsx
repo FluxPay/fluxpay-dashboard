@@ -40,6 +40,10 @@ export default function Dao() {
     const poolMasterContract = new ethers.Contract(PoolMaster_address, PoolMasterABI, signer || provider);
     let tx = await poolMasterContract.createTap(curDao.title, Number(flow), nftAddress, curDao.currency);
     console.log(tx);
+    console.log(tx.toString());
+    poolMasterContract.on('TapCreated', (poolName, senderAddress, poolAddress, nftAddress, currency) => {
+      console.log(poolName, senderAddress, poolAddress, nftAddress, currency);
+    })
   }
 
   useEffect(() => {
