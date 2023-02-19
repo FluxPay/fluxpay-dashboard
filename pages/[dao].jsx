@@ -84,16 +84,29 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
   
   
   const fillPoolAddress = async (flow) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+
     const sf = await Framework.create({
         chainId: 80001,
         provider:provider
     });
+
     let daoCurrency = await sf.loadSuperToken("0x25963b81595626b807D635544bf4BCBffbb262D8");
+    console.log(daoCurrency.address);
+
     let flowOp = daoCurrency.createFlow({
-      address,
-      receiver: curDao.poolAddress,
-      flowRate: ethers.utils.parseUnits(flow, 18)
+      sender: address,
+      flowRate: (ethers.utils.parseUnits(flow, 18)).toString()
     });
+
+    
+    // let flowOp = daoCurrency.createFlowByOperator({
+    //   sender: address,
+    //   receiver: curDao.poolAddress.toString(),
+    //   flowRate: (ethers.utils.parseUnits(flow, 18)).toString()
+    // });
 
     await flowOp.exec(signer);
   }
@@ -101,7 +114,9 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
   const topUpPool = async (flow) => {
     const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider);
 
-    let tx = await poolContract.topUpTap(Number(flow));
+    let tx = await poolContract.topUpTap(Number(flow), {
+      gasLimit: 5000000,
+    });
     console.log(tx);
   }
 

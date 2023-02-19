@@ -56,7 +56,6 @@ export default function Register() {
   const submitForm = async () => {
     try {
       setLoading(true)
-      throw new Error('Hi')
       const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, Psigner || provider);
       console.log('Creating a DAO...');
       let tx = await fluxpayContract.createDao(address, name, desc, image, currency);
