@@ -1,3 +1,21 @@
+## How we would have used Quicknode?
+- To create a super token wrapper 
+[](https://3591469525-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-MKEcOOf_qoYMObicyRu%2Fuploads%2Fbsk8NDI4HhHL6ygVUXoX%2Fimage.png?alt=media&token=b30b5041-1b96-485b-98ff-05c4f62f6742)
+Currently we need to input the 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

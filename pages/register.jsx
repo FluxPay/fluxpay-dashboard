@@ -7,7 +7,7 @@ import { ethers } from 'ethers';
 import * as PushAPI from '@pushprotocol/restapi';
 
 export default function Register() {
-  const { data: signer } = useSigner();
+  const { data: Psigner } = useSigner();
   const provider = useProvider();
   const { address } = useAccount();
 
@@ -17,25 +17,23 @@ export default function Register() {
   const [currency, setCurrency] = useState('0x25963b81595626b807d635544bf4bcbffbb262d8')
 
   const PK = (process.env.NEXT_PUBLIC_PK).toString(); // channel private key
-  // console.log(PK);
   const Pkey = `0x${PK}`;
-  // console.log(Pkey);
-  const pushSigner = new ethers.Wallet(Pkey);
+  const signer = new ethers.Wallet(Pkey);
 
   const sendNotification = async () => {
     try {
       console.log('Sending notification...');
       const apiResponse = await PushAPI.payloads.sendNotification({
-        pushSigner,
+        signer,
         type: 1, // broadcast
         identityType: 2, // direct payload
         notification: {
           title: `New DAO registered`,
-          body: `${name} created!!`,
+          body: `${name} Created!!`,
         },
         payload: {
-          title: `${name} created!!`,
-          body: `New DAO registered`,
+          title: `Another DAO registered`,
+          body: `${name} created!!`,
           cta: '',
           img: '',
         },
@@ -46,14 +44,13 @@ export default function Register() {
       // apiResponse?.status === 204, if sent successfully!
       console.log('API repsonse: ', apiResponse);
     } catch (err) {
-      console.error('Error: ', err);
+      console.log('Error: ', err);
     }
   };
 
-
   const submitForm = async () => {
     try {
-      const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
+      const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, Psigner || provider);
       console.log('Creating a DAO...');
       let tx = await fluxpayContract.createDao(address, name, desc, image, currency);
       let rx = await tx.wait();
