@@ -24,6 +24,7 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
 
   const [flow, setFlow] = useState('')
   const [nftAddress, setNftAddress] = useState('')
+  const [tokenID, setTokenID] = useState('')
 
   const checkAdmin = (tempdao) => {
     if (tempdao.owner === address) {
@@ -126,11 +127,19 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
     if (address && curDao) checkAdmin(curDao)
   }, [address])
 
+  const claim = async () => {
+    const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider)
+
+    let tx = await poolContract.claim(tokenID)
+    console.log(tx)
+
+  }
+
   return (
     <section>
       {curDao && (
         <div className="w-full max-w-screen-lg  my-24 mx-auto px-8 border-2 rounded-md bg-white shadow-md">
-          <div className="w-full flex justify-between items-center">
+          <div className="w-full flex justify-between items-center py-2">
             <div className="w-[25%] ">
               <img className="w-full h-full object-cover" src={curDao.image} alt="dao"/>
             </div>
@@ -165,7 +174,15 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
                 </div>
               )}
               </div>
-            ) : null}
+          ) : (
+            <div className="w-full my-8">
+              <div className="flex flex-col space-y-2">
+                <label htmlFor="tokenID">Token ID</label>
+                <input className="border-2 border-gray-200 p-2" id="tokenID" type="text" placeholder="Enter Token ID" value={tokenID} onChange={e => setTokenID(e.target.value)} required/>
+              </div>
+              <button className="btn my-4">Claim Stream</button>
+            </div>
+          )}
         </div>
       )}
     </section>
