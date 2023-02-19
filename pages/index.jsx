@@ -81,8 +81,8 @@ export default function Home() {
       </section>
       <section>
         <div className="w-full flex flex-wrap items-center">
-          {daos && daos.map(dao => (
-            <Link href={"/" + dao.title.toLowerCase().split(' ').join('-')} className="w-72 flex flex-col border-2 border-grey-100 rounded-md shadow-md cursor-pointer mx-4 my-8">
+          {daos && daos.map((dao, index) => (
+            <Link key={index} href={"/" + dao.title.toLowerCase().split(' ').join('-')} className="w-72 flex flex-col border-2 border-grey-100 rounded-md shadow-md cursor-pointer mx-4 my-8">
               <div className="w-full h-48">
                 <img className="w-full h-full object-cover" width={200} height={200} src={dao.image} alt="dao"/>
               </div>

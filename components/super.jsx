@@ -3,7 +3,7 @@ import { super_address } from '../Addresses/index.js';
 import { SuperTokenWrapperABI } from '../ABIs/SuperTokenWrapper.js';
 import { useAccount, useSigner, useProvider } from 'wagmi';
 
-export const superToken = async () => {
+export default SuperToken = async () => {
   // const provider = new ethers.providers.Web3Provider(window.ethereum);
   // const signer = provider.getSigner();
 

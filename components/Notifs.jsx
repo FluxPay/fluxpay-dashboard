@@ -48,8 +48,8 @@ export default function Notifs() {
     <div className="w-72 absolute top-[75px] bg-white flex flex-col border-2 border-gray-200 rounded-md">
       <div className="w-full flex justify-between items-center p-2 border-b-2 border-gray-400">Notifications <span className="p-2 bg-fgreen text-white rounded-md cursor-pointer" onClick={optin}>Opt-In</span></div>
       <div className="w-full h-72 flex flex-col space-y-1 overflow-y-auto">
-        {notifsData && notifsData.map(notif => (
-          <p className="w-full p-2 border-b-2">{notif.message}</p>
+        {notifsData && notifsData.map((notif, index) => (
+          <p key={index} className="w-full p-2 border-b-2">{notif.message}</p>
         ))}
       </div>
     </div>
