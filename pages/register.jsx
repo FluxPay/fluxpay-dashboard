@@ -80,7 +80,6 @@ export default function Register() {
           <label className="mt-4" htmlFor="currency">Currency</label>
           <input className="border-2 p-2 my-2 rounded-sm" id="currency" type="text" placeholder="DAO Currency" value={currency} onChange={e => setCurrency(e.target.value)}/>
           <button className="btn my-8" onClick={submitForm}>Register</button>
-          <button className="btn my-8" onClick={sendNotification}>Register</button>
         </div>
       </section>
     </>

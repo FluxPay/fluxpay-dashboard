@@ -4,6 +4,28 @@ import { SuperTokenFactoryABI } from '../ABIs/SuperTokenFactoryABI.js';
 import {SuperTokenFactoryAddr} from '../Addresses/index';
 import Head from 'next/head'
 import { useState } from 'react';
+import Moralis  from 'moralis';
+import { EvmChain } from '@moralisweb3/evm-utils';
+
+try {
+    const chain = EvmChain.MUMBAI;
+
+    const addresses = [inputAddress];
+
+    await Moralis.start({
+      apiKey: process.env.NEXT_PUBLIC_MORALIS.toString(), // Application id from moralis.io
+    });
+
+    const response = await Moralis.EvmApi.token.getTokenMetadata({
+        addresses,
+        chain,
+    });
+
+    console.log(response?.result);
+} catch (e) {
+    console.error(e);
+}
+        
 
 export default function Super() {
   const { data: signer } = useSigner();

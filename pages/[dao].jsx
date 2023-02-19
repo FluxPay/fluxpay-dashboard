@@ -6,6 +6,12 @@ import { ethers } from 'ethers';
 import { useState, useEffect } from "react";
 import { PoolABI } from "../ABIs/PoolABI";
 import { PoolMasterABI } from "../ABIs/PoolMasterABI";
+import Moralis  from 'moralis';
+import { EvmChain } from '@moralisweb3/evm-utils';
+
+
+        
+
 
 export default function Dao() {
   const router = useRouter()
@@ -44,6 +50,28 @@ export default function Dao() {
     poolMasterContract.on('TapCreated', (poolName, senderAddress, poolAddress, nftAddress, currency) => {
       console.log(poolName, senderAddress, poolAddress, nftAddress, currency);
     })
+  }
+
+  const createIDA = async () => {
+    try {
+        const chain = EvmChain.MUMBAI;
+
+        const address = nftAddress;
+
+        await Moralis.start({
+          apiKey: process.env.NEXT_PUBLIC_MORALIS.toString(), // Application id from moralis.io
+        });
+
+        const response = await Moralis.EvmApi.nft.getNFTOwners({
+            address,
+            chain,
+        });
+
+        console.log(response?.result);
+    } catch (e) {
+        console.error(e);
+    }
+
   }
 
   useEffect(() => {
@@ -87,6 +115,8 @@ export default function Dao() {
                   <input className="border-2 border-gray-200 p-2" id="nft" type="text" placeholder="NFT Collection Address" value={nftAddress} onChange={e => setNftAddress(e.target.value)} required/>
                 </div>
                 <button className="btn" onClick={createPayroll}>Create</button>
+                <button className="btn" onClick={createIDA}>Create</button>
+              
               </div>
             ) : null
           }
