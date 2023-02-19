@@ -51,13 +51,14 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
     poolMasterContract.on('TapCreated', (poolName, senderAddress, poolAddress, nftAddress, currency) => {
       console.log(poolName, senderAddress, poolAddress, nftAddress, currency);
       tempPoolAddress = poolAddress;
+      setPooAddrs(tempPoolAddress);
     })
+  }
 
+  const setPooAddrs = async (tempPoolAddress) => {
     let setPoolAddress = await fluxpayContract.setPoolAddress(curDaoIndex, tempPoolAddress);
     console.log(setPoolAddress);
   }
-
-  
 
   const createIDA = async () => {
     try {
@@ -135,6 +136,7 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
       })
       setCurDao(tempDao[0])
       checkAdmin(tempDao[0])
+      console.log(tempDao[0].poolAddress)
     }
   }, [daos])
 
