@@ -131,6 +131,13 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
                 </div>
               )}
               {curDao.poolAddress && <p className="">Pool Address: {curDao.poolAddress}</p>}
+              {curDao.poolAddress && (
+                <div className="flex flex-col space-y-2">
+                  <label htmlFor="flow">Flow Rate</label>
+                  <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second" value={flow} onChange={e => setFlow(e.target.value)} required/>
+                  <button className="btn" onClick={createPayroll}>Create</button>
+                </div>
+              )}
               </div>
             ) : null}
         </div>
