@@ -176,7 +176,7 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
           </div>
           {isAdmin ? (
             <div className="w-full flex flex-col my-8 space-y-4">
-              {!curDao.poolAddress && (
+              {curDao.poolAddress == '0x0000000000000000000000000000000000000000' && (
                 <div className="w-full flex flex-col my-8 space-y-4">
                   <h2 className="text-fgreen text-2xl font-bold">Start Payroll</h2>
                   <div className="flex flex-col space-y-2">
@@ -190,8 +190,8 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
                   <button className="btn" onClick={createPayroll}>Create</button>
                 </div>
               )}
-              {curDao.poolAddress && <p className="">Pool Address: {curDao.poolAddress}</p>}
-              {curDao.poolAddress && (
+              {curDao.poolAddress !== '0x0000000000000000000000000000000000000000' && <p className="">Pool Address: {curDao.poolAddress}</p>}
+              {curDao.poolAddress !== '0x0000000000000000000000000000000000000000' && (
                 <div className="flex flex-col space-y-2">
                   <button className="btn" onClick={()=>activatePool()}>Activate Pool</button>
                   <label htmlFor="flow">Flow Rate</label>
