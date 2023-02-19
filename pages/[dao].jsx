@@ -130,13 +130,19 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
   const claim = async () => {
     const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider)
 
-    let tx = await poolContract.claimStream(Number(tokenID))
+    let tx = await poolContract.claimStream(Number(tokenID), {
+      gasLimit: 100000,
+      nonce: nonce || undefined,
+    })
     console.log(tx)
 
   }
 
   const activatePool = async ()=>  {
-    const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider);
+    const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider, {
+      gasLimit: 100000,
+      nonce: nonce || undefined,
+    });
 
     let tx = await poolContract.activateTap();
     console.log(tx);
