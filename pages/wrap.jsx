@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import GetSF from '../hooks/GetSF';
 import { useAccount, useSigner } from 'wagmi';
+import Spinner from '../components/Spinner'
+import { toast } from 'react-toastify';
 
 const Wrap = (props) => {
   const [amount, setAmount] = useState('');
   const [custom, setCustom] = useState(false)
   const [inputAddress, setInputAddress] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const fxpxAddress = '0x25963b81595626b807d635544bf4bcbffbb262d8'
 
@@ -14,19 +17,27 @@ const Wrap = (props) => {
   const { address } = useAccount();
 
   const upgrade = async () => {
-    const sf = await GetSF();
-    const FXPx = await sf.loadSuperToken(custom ? inputAddress : fxpxAddress);
-    const FXP = FXPx?.underlyingToken;
-    const approve = FXP.approve({
-      receiver: FXPx.address || '0x0',
-      amount: ethers.utils.parseEther(amount),
-    });
-    const apv = await approve.exec(signer);
-    await apv.wait();
+    try {
+      setLoading(true)
+      const sf = await GetSF();
+      const FXPx = await sf.loadSuperToken(custom ? inputAddress : fxpxAddress);
+      const FXP = FXPx?.underlyingToken;
+      const approve = FXP.approve({
+        receiver: FXPx.address || '0x0',
+        amount: ethers.utils.parseEther(amount),
+      });
+      const apv = await approve.exec(signer);
+      await apv.wait();
 
-    const op = FXPx.upgrade({ amount: ethers.utils.parseEther(amount) });
-    const res = op.exec(signer);
-    console.log(res)
+      const op = FXPx.upgrade({ amount: ethers.utils.parseEther(amount) });
+      const res = op.exec(signer);
+      setLoading(true)
+      toast('Success!')
+      console.log(res)
+    } catch(err) {
+      setLoading(true)
+      toast('Failed :(')
+    }
   };
 
   const downgrade = async () => {
@@ -69,14 +80,15 @@ const Wrap = (props) => {
             onChange={e => setAmount(e.target.value)}
           />
         </div>
-        <div className="flex flex-row w-full mt-3 pr-2">
-          <button onClick={upgrade} className="btn mt-2 w-1/2 mr-1">
-            to {custom ? "Super Token" : "FXPx"}
-          </button>
-          <button onClick={downgrade} className="btn mt-2 w-1/2 ml-1">
-            to {custom ? "Simple Token" : "FXP"}
-          </button>
-        </div>
+        {!loading && <div className="flex flex-row w-full mt-3 pr-2">
+            <button onClick={upgrade} className="btn mt-2 w-1/2 mr-1">
+              to {custom ? "Super Token" : "FXPx"}
+            </button>
+            <button onClick={downgrade} className="btn mt-2 w-1/2 ml-1">
+              to {custom ? "Simple Token" : "FXP"}
+            </button>
+          </div>}
+        {loading && <Spinner />}
       </div>
     </section>
   );
