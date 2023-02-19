@@ -126,6 +126,13 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
     if (address && curDao) checkAdmin(curDao)
   }, [address])
 
+  const activatePool = async ()=>  {
+    const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider);
+
+    let tx = await poolContract.activateTap();
+    console.log(tx);
+  }
+
   return (
     <section>
       {curDao && (
@@ -158,6 +165,7 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
               {curDao.poolAddress && <p className="">Pool Address: {curDao.poolAddress}</p>}
               {curDao.poolAddress && (
                 <div className="flex flex-col space-y-2">
+                  <button className="btn" onClick={()=>activatePool()}>Activate Pool</button>
                   <label htmlFor="flow">Flow Rate</label>
                   <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second" value={flow} onChange={e => setFlow(e.target.value)} required/>
                   <button className="btn" onClick={()=>fillPoolAddress(flow)}>Create flow</button>
