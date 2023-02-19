@@ -8,6 +8,7 @@ import { PoolABI } from "../ABIs/PoolABI";
 import { PoolMasterABI } from "../ABIs/PoolMasterABI";
 import Moralis  from 'moralis';
 import { EvmChain } from '@moralisweb3/evm-utils';
+import { Framework } from "@superfluid-finance/sdk-core";
 
 export default function Dao() {
   const router = useRouter()
@@ -79,6 +80,30 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
 
   }
 
+  
+  
+  const fillPoolAddress = async (flow) => {
+    const sf = await Framework.create({
+        chainId: 80001,
+        provider:provider
+    });
+    let daoCurrency = await sf.loadSuperToken("0x25963b81595626b807D635544bf4BCBffbb262D8");
+    let flowOp = daoCurrency.createFlow({
+      address,
+      receiver: curDao.poolAddress,
+      flowRate: ethers.utils.parseUnits(flow, 18)
+    });
+
+    await flowOp.exec(signer);
+  }
+
+  const topUpPool = async (flow) => {
+    const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider);
+
+    let tx = await poolContract.topUpTap(Number(flow));
+    console.log(tx);
+  }
+
   useEffect(() => {
     getRegisteredDaos()
   }, [])
@@ -135,7 +160,8 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="flow">Flow Rate</label>
                   <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second" value={flow} onChange={e => setFlow(e.target.value)} required/>
-                  <button className="btn" onClick={createPayroll}>Create</button>
+                  <button className="btn" onClick={()=>fillPoolAddress(flow)}>Create flow</button>
+                  <button className="btn" onClick={()=>topUpPool(flow)}>Top Up Pool</button>
                 </div>
               )}
               </div>
