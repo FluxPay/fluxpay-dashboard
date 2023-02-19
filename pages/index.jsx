@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { useState, useEffect } from 'react';
 import { FluxPayABI } from '../ABIs/Fluxpay';
 import { fluxpay_address } from '../Addresses/index';
+import * as PushAPI from '@pushprotocol/restapi';
 
 export default function Home() {
   const { data: signer } = useSigner();
@@ -23,6 +24,36 @@ export default function Home() {
     getRegisteredDaos()
   }, [])
 
+  const optout = async () => {
+    await PushAPI.channels.unsubscribe({
+      signer: signer,
+      channelAddress: 'eip155:80001:0x42066368D2b1c06E32e34c8A264a4fe7acE29606', // channel address in CAIP
+      userAddress: 'eip155:80001:' + address, // user address in CAIP
+      onSuccess: () => {
+        console.log('opt out success');
+      },
+      onError: () => {
+        console.error('opt out error');
+      },
+      env: 'staging',
+    });
+  };
+
+  const optin = async () => {
+    await PushAPI.channels.subscribe({
+      signer: signer,
+      channelAddress: 'eip155:80001:0x42066368D2b1c06E32e34c8A264a4fe7acE29606', // channel address in CAIP
+      userAddress: 'eip155:80001:' + address, // user address in CAIP
+      onSuccess: () => {
+        console.log('opt in success');
+      },
+      onError: () => {
+        console.error('opt in error');
+      },
+      env: 'staging',
+    });
+  };
+
   return (
     <>
       <Head>
@@ -32,6 +63,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section>
+        <div className="w-fit flex justify-start items-center p-4 bg-[#8c6dfd] h-[23px] rounded-[10px] mb-8">
+          <p className="font-epilogue font-bold text-[15px]">
+            Join the Push notification channel!! Never miss out on any update 😊{' '}
+            <button className="bg-gray-200 rounded-[10px] p-1 mr-10 ml-36" onClick={optin}>
+              Opt-In
+            </button>{' '}
+            <button className="bg-gray-200 rounded-[10px] p-1 mr-14" onClick={optout}>
+              Opt-Out
+            </button>
+          </p>
+        </div>
         <div className="w-full flex my-24 p-4 justify-between items-center bg-gray-200 border-2 border-gray-400 rounded-lg">
           <span>Simplify your DAO payroll using Fluxpay</span>
           <Link href="/register" className="btn">Register Now!</Link>
