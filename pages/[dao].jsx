@@ -55,11 +55,7 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
     console.log(setPoolAddress);
   }
 
-  const tempSetPoolAddress = async () => {
-    let setPoolAddress = await fluxpayContract.setPoolAddress(curDaoIndex, "0x63623F5AAF0e03cd12CF2Ec10Ee3470B49e7fd8B");
-    console.log(setPoolAddress);
   
-  }
 
   const createIDA = async () => {
     try {
@@ -119,22 +115,24 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
           </div>
           </div>
           {isAdmin ? (
-              <div className="w-full flex flex-col my-8 space-y-4">
-                <h2 className="text-fgreen text-2xl font-bold">Start Payroll</h2>
-                <div className="flex flex-col space-y-2">
-                  <label htmlFor="flow">Flow Rate</label>
-                  <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second" value={flow} onChange={e => setFlow(e.target.value)} required/>
+            <div className="w-full flex flex-col my-8 space-y-4">
+              {!curDao.poolAddress && (
+                <div className="w-full flex flex-col my-8 space-y-4">
+                  <h2 className="text-fgreen text-2xl font-bold">Start Payroll</h2>
+                  <div className="flex flex-col space-y-2">
+                    <label htmlFor="flow">Flow Rate</label>
+                    <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second" value={flow} onChange={e => setFlow(e.target.value)} required/>
+                  </div>
+                  <div className="flex flex-col space-y-2">
+                    <label htmlFor="nft">NFT Address</label>
+                    <input className="border-2 border-gray-200 p-2" id="nft" type="text" placeholder="NFT Collection Address" value={nftAddress} onChange={e => setNftAddress(e.target.value)} required/>
+                  </div>
+                  <button className="btn" onClick={createPayroll}>Create</button>
                 </div>
-                <div className="flex flex-col space-y-2">
-                  <label htmlFor="nft">NFT Address</label>
-                  <input className="border-2 border-gray-200 p-2" id="nft" type="text" placeholder="NFT Collection Address" value={nftAddress} onChange={e => setNftAddress(e.target.value)} required/>
-                </div>
-                <button className="btn" onClick={createPayroll}>Create</button>
-                <button className="btn" onClick={tempSetPoolAddress}>Create</button>
-              
+              )}
+              {curDao.poolAddress && <p className="">Pool Address: {curDao.poolAddress}</p>}
               </div>
-            ) : null
-          }
+            ) : null}
         </div>
       )}
     </section>
