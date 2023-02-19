@@ -130,7 +130,7 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
   const claim = async () => {
     const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider)
 
-    let tx = await poolContract.claim(tokenID)
+    let tx = await poolContract.claimStream(Number(tokenID))
     console.log(tx)
 
   }
@@ -188,7 +188,7 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
                 <label htmlFor="tokenID">Token ID</label>
                 <input className="border-2 border-gray-200 p-2" id="tokenID" type="text" placeholder="Enter Token ID" value={tokenID} onChange={e => setTokenID(e.target.value)} required/>
               </div>
-              <button className="btn my-4">Claim Stream</button>
+              <button className="btn my-4" onClick={claim}>Claim Stream</button>
             </div>
           )}
         </div>
