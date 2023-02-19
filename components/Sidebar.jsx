@@ -11,7 +11,6 @@ export default function Sidebar({ href }) {
         <Link href="/" className={"p-2" + (router.pathname === "/" ? cur : "")}>Home</Link>
         <Link href="/wrap" className={"p-2" + (router.pathname === "/wrap" ? cur : "")}>Wrap/Unwrap</Link>
         <Link href="/super" className={"p-2" + (router.pathname === "/super" ? cur : "")}>Super Token</Link>
-        <Link href="/notifs" className={"p-2" + (router.pathname === "/notifs" ? cur : "")}>Notifications</Link>
         <Link href="https://fluxpay-faucet.vercel.app/" className="p-2">Faucet</Link>
       </div>
     </div>

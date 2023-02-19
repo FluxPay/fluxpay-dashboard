@@ -9,10 +9,6 @@ import { PoolMasterABI } from "../ABIs/PoolMasterABI";
 import Moralis  from 'moralis';
 import { EvmChain } from '@moralisweb3/evm-utils';
 
-
-        
-
-
 export default function Dao() {
   const router = useRouter()
   const { dao: daoslug } = router.query
@@ -44,7 +40,7 @@ export default function Dao() {
 
   const createPayroll = async () => {
     const poolMasterContract = new ethers.Contract(PoolMaster_address, PoolMasterABI, signer || provider);
-    let tx = await poolMasterContract.createTap(curDao.title, Number(flow), nftAddress, curDao.currency);
+    let tx = await poolMasterContract.createTap(curDao.title, ethers.utils.parseUnits(flow, 18), nftAddress, curDao.currency);
     console.log(tx);
     console.log(tx.toString());
     poolMasterContract.on('TapCreated', (poolName, senderAddress, poolAddress, nftAddress, currency) => {
