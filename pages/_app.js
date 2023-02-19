@@ -6,6 +6,7 @@ import { polygonMumbai, goerli } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 
 import { DM_Sans } from '@next/font/google'
 
@@ -64,6 +65,7 @@ export default function App({ Component, pageProps }) {
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
           <Navbar />
+          <Sidebar />
           <Component {...pageProps} />
         </RainbowKitProvider>
       </WagmiConfig>
