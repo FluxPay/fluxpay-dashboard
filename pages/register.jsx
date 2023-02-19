@@ -5,6 +5,7 @@ import { FluxPayABI } from '../ABIs/Fluxpay';
 import { fluxpay_address } from '../Addresses';
 import { ethers } from 'ethers';
 import * as PushAPI from '@pushprotocol/restapi';
+import Spinner from '../components/Spinner';
 
 export default function Register() {
   const { data: Psigner } = useSigner();
@@ -15,6 +16,8 @@ export default function Register() {
   const [desc, setDesc] = useState('')
   const [image, setImage] = useState('')
   const [currency, setCurrency] = useState('0x25963b81595626b807d635544bf4bcbffbb262d8')
+
+  const [loading, setLoading] = useState(false)
 
   const PK = (process.env.NEXT_PUBLIC_PK).toString(); // channel private key
   const Pkey = `0x${PK}`;
@@ -50,14 +53,19 @@ export default function Register() {
 
   const submitForm = async () => {
     try {
+      setLoading(true)
       const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, Psigner || provider);
       console.log('Creating a DAO...');
       let tx = await fluxpayContract.createDao(address, name, desc, image, currency);
       let rx = await tx.wait();
       await sendNotification();
       console.log(rx);
+      setLoading(false)
     } catch(err) {
       console.log(err)
+      setTimeout(() => {
+        setLoading(false)
+      }, 5000)
     }
   };
 
@@ -79,7 +87,8 @@ export default function Register() {
           <input className="border-2 p-2 my-2 rounded-sm" id="image" type="text" placeholder="DAO Image URL" value={image} onChange={e => setImage(e.target.value)}/>
           <label className="mt-4" htmlFor="currency">Currency</label>
           <input className="border-2 p-2 my-2 rounded-sm" id="currency" type="text" placeholder="DAO Currency" value={currency} onChange={e => setCurrency(e.target.value)}/>
-          <button className="btn my-8" onClick={submitForm}>Register</button>
+          {!loading && <button className="btn my-8" onClick={submitForm}>Register</button>}
+          {loading && <Spinner />}
         </div>
       </section>
     </>
