@@ -6,6 +6,8 @@ import { fluxpay_address } from '../Addresses';
 import { ethers } from 'ethers';
 import * as PushAPI from '@pushprotocol/restapi';
 import Spinner from '../components/Spinner';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Register() {
   const { data: Psigner } = useSigner();
@@ -54,18 +56,19 @@ export default function Register() {
   const submitForm = async () => {
     try {
       setLoading(true)
+      throw new Error('Hi')
       const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, Psigner || provider);
       console.log('Creating a DAO...');
       let tx = await fluxpayContract.createDao(address, name, desc, image, currency);
       let rx = await tx.wait();
       await sendNotification();
       console.log(rx);
+      toast('Successfully created DAO!')
       setLoading(false)
     } catch(err) {
       console.log(err)
-      setTimeout(() => {
-        setLoading(false)
-      }, 5000)
+      toast('Some error occurred. Please try again later.')
+      setLoading(false)
     }
   };
 

@@ -13,6 +13,7 @@ import { DM_Sans } from '@next/font/google'
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 import { ArcanaConnector } from "@arcana/auth-wagmi";
+import { ToastContainer } from 'react-toastify';
 
 export const ArcanaRainbowConnector = ({ chains }) => {
   return {
@@ -64,6 +65,7 @@ export default function App({ Component, pageProps }) {
     <main className={dmsans.className}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
+          <ToastContainer />
           <Navbar />
           <Sidebar />
           <Component {...pageProps} />
