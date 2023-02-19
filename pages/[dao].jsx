@@ -17,7 +17,7 @@ export default function Dao() {
   const provider = useProvider();
   const [daos, setDaos] = useState([]);
   const [curDao, setCurDao] = useState(null)
-
+const [curDaoIndex, setCurDaoIndex] = useState(0)
   const { address } = useAccount();
   const [isAdmin, setIsAdmin] = useState(false)
 
@@ -32,20 +32,33 @@ export default function Dao() {
     }
   }
 
+  const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
+  const poolMasterContract = new ethers.Contract(PoolMaster_address, PoolMasterABI, signer || provider);
+  
   const getRegisteredDaos = async () => {
-    const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
     let registeredDaos = await fluxpayContract.getDaos();
     setDaos(registeredDaos);
   }
 
   const createPayroll = async () => {
-    const poolMasterContract = new ethers.Contract(PoolMaster_address, PoolMasterABI, signer || provider);
+    let tempPoolAddress;
+
     let tx = await poolMasterContract.createTap(curDao.title, ethers.utils.parseUnits(flow, 18), nftAddress, curDao.currency);
     console.log(tx);
     console.log(tx.toString());
     poolMasterContract.on('TapCreated', (poolName, senderAddress, poolAddress, nftAddress, currency) => {
       console.log(poolName, senderAddress, poolAddress, nftAddress, currency);
+      tempPoolAddress = poolAddress;
     })
+
+    let setPoolAddress = await fluxpayContract.setPoolAddress(curDaoIndex, tempPoolAddress);
+    console.log(setPoolAddress);
+  }
+
+  const tempSetPoolAddress = async () => {
+    let setPoolAddress = await fluxpayContract.setPoolAddress(curDaoIndex, "0x63623F5AAF0e03cd12CF2Ec10Ee3470B49e7fd8B");
+    console.log(setPoolAddress);
+  
   }
 
   const createIDA = async () => {
@@ -76,7 +89,13 @@ export default function Dao() {
 
   useEffect(() => {
     if (daos.length > 0) {
-      let tempDao = daos.filter(dao => dao.title.toLowerCase().split(' ').join('-') === daoslug)
+      let tempDao = daos.filter((dao, index) => {
+        if (dao.title.toLowerCase().split(' ').join('-') === daoslug){
+          // dao.index = index
+          setCurDaoIndex(index)
+          return true
+        }
+      })
       setCurDao(tempDao[0])
       checkAdmin(tempDao[0])
     }
@@ -111,7 +130,7 @@ export default function Dao() {
                   <input className="border-2 border-gray-200 p-2" id="nft" type="text" placeholder="NFT Collection Address" value={nftAddress} onChange={e => setNftAddress(e.target.value)} required/>
                 </div>
                 <button className="btn" onClick={createPayroll}>Create</button>
-                <button className="btn" onClick={createIDA}>Create</button>
+                <button className="btn" onClick={tempSetPoolAddress}>Create</button>
               
               </div>
             ) : null
