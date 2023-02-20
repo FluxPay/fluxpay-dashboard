@@ -1,8 +1,8 @@
 import { useRouter } from "next/router"
-import { useSigner, useProvider, useAccount } from 'wagmi'
+import { useSigner, useProvider, useAccount, useContract, useContractWrite, useContractRead } from 'wagmi'
 import { FluxPayABI } from '../ABIs/Fluxpay';
 import { fluxpay_address, Pool_address, PoolMaster_address } from '../Addresses';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { useState, useEffect } from "react";
 import { PoolABI } from "../ABIs/PoolABI";
 import { PoolMasterABI } from "../ABIs/PoolMasterABI";
@@ -18,13 +18,16 @@ export default function Dao() {
   const provider = useProvider();
   const [daos, setDaos] = useState([]);
   const [curDao, setCurDao] = useState(null)
-const [curDaoIndex, setCurDaoIndex] = useState(0)
+  const [curDaoIndex, setCurDaoIndex] = useState(0)
   const { address } = useAccount();
   const [isAdmin, setIsAdmin] = useState(false)
 
   const [flow, setFlow] = useState('')
   const [nftAddress, setNftAddress] = useState('')
   const [tokenID, setTokenID] = useState('')
+  const [flowRate, setFlowRate] = useState('')
+  const [flowRateDisplay, setFlowRateDisplay] = useState('')
+  const [tPoolAddress, setTPoolAddress] = useState('')
 
   const checkAdmin = (tempdao) => {
     if (tempdao.owner === address) {
@@ -84,32 +87,71 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
 
   
   
-  const fillPoolAddress = async (flow) => {
+  const fillPoolAddress = async (flowRate) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+  
     const signer = provider.getSigner();
-
-
+  
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });
     const sf = await Framework.create({
-        chainId: 80001,
-        provider:provider
+      chainId: Number(chainId),
+      provider: provider
     });
-
-    let daoCurrency = await sf.loadSuperToken("0x25963b81595626b807D635544bf4BCBffbb262D8");
-    console.log(daoCurrency.address);
-
-    let flowOp = daoCurrency.createFlow({
-      sender: address,
-      flowRate: (ethers.utils.parseUnits(flow, 18)).toString()
-    });
-
+  
+    const superSigner = sf.createSigner({ signer: signer });
+  
+    console.log(signer);
+    console.log(await superSigner.getAddress());
+  
+    let daoCurrency = await sf.loadSuperToken(curDao.currency);
+    setTPoolAddress(curDao.poolAddress);
     
-    // let flowOp = daoCurrency.createFlowByOperator({
-    //   sender: address,
-    //   receiver: curDao.poolAddress.toString(),
-    //   flowRate: (ethers.utils.parseUnits(flow, 18)).toString()
-    // });
+    try {
+      const createFlowOperation = daoCurrency.createFlow({
+        sender: await superSigner.getAddress(),
+        receiver: tPoolAddress,
+        flowRate: flowRate
+        // userData?: string
+      });
+  
+      console.log(createFlowOperation);
+      console.log("Creating your stream...");
+  
+      const result = await createFlowOperation.exec(superSigner);
+      console.log(result);
+  
+      console.log(
+        `Congrats - you've just created a money stream!
+      `
+      );
+    } catch (error) {
+      console.log(
+        "Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!"
+      );
+      console.error(error);
+    }
+  }
 
-    await flowOp.exec(signer);
+  const handleFlowRateChange = (e) => {
+    setFlowRate(() => (e));
+    let newFlowRateDisplay = calculateFlowRate(e);
+    setFlowRateDisplay(newFlowRateDisplay.toString());
+  };
+
+  function calculateFlowRate(amount) {
+    if (typeof Number(amount) !== "number" || isNaN(Number(amount)) === true) {
+      alert("You can only calculate a flowRate based on a number");
+      return;
+    } else if (typeof Number(amount) === "number") {
+      if (Number(amount) === 0) {
+        return 0;
+      }
+      const amountInWei = ethers.BigNumber.from(amount);
+      const monthlyAmount = ethers.utils.formatEther(amountInWei.toString());
+      const calculatedFlowRate = monthlyAmount * 3600 * 24 * 30;
+      return calculatedFlowRate;
+    }
   }
 
   const topUpPool = async (flow) => {
@@ -197,9 +239,14 @@ const [curDaoIndex, setCurDaoIndex] = useState(0)
                 <div className="flex flex-col space-y-2">
                   <button className="btn" onClick={()=>activatePool()}>Activate Pool</button>
                   <label htmlFor="flow">Flow Rate</label>
-                  <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second" value={flow} onChange={e => setFlow(e.target.value)} required/>
-                  <button className="btn" onClick={()=>fillPoolAddress(flow)}>Create flow</button>
-                  <button className="btn" onClick={()=>topUpPool(flow)}>Top Up Pool</button>
+                  <input className="border-2 border-gray-200 p-2" id="flow" type="text" placeholder="Flow Rate/second" value={flowRate} onChange={e => handleFlowRateChange(e.target.value)} required/>
+                  <button className="btn" onClick={()=>fillPoolAddress(flowRate)}>Create flow</button>
+                  <div className="my-2">
+                    <p>Your flow will be equal to:</p>
+                    <p>
+                      <b>{flowRateDisplay !== " " ? flowRateDisplay : 0}</b> Currency/month
+                    </p>
+                  </div>
                 </div>
               )}
               </div>
