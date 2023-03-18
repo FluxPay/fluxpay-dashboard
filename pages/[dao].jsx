@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { useSigner, useProvider, useAccount, useContract, useContractWrite, useContractRead } from 'wagmi'
 import { FluxPayABI } from '../ABIs/Fluxpay';
-import { fluxpay_address, Pool_address, PoolMaster_address } from '../Addresses';
+import { Fluxpay_address, Pool_address, PoolMaster_address } from '../Addresses';
 import { BigNumber, ethers } from 'ethers';
 import { useState, useEffect } from "react";
 import { PoolABI } from "../ABIs/PoolABI";
@@ -9,6 +9,7 @@ import { PoolMasterABI } from "../ABIs/PoolMasterABI";
 import Moralis  from 'moralis';
 import { EvmChain } from '@moralisweb3/evm-utils';
 import { Framework } from "@superfluid-finance/sdk-core";
+import { Approve_ABI } from "../ABIs/Approve";
 
 export default function Dao() {
   const router = useRouter()
@@ -37,7 +38,7 @@ export default function Dao() {
     }
   }
 
-  const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
+  const fluxpayContract = new ethers.Contract(Fluxpay_address, FluxPayABI, signer || provider);
   const poolMasterContract = new ethers.Contract(PoolMaster_address, PoolMasterABI, signer || provider);
   
   const getRegisteredDaos = async () => {
@@ -48,10 +49,10 @@ export default function Dao() {
   const createPayroll = async () => {
     let tempPoolAddress;
 
-    let tx = await poolMasterContract.createTap(curDao.title, ethers.utils.parseUnits(flow, 18), nftAddress, curDao.currency);
+    let tx = await poolMasterContract.createPool(curDao.title, ethers.utils.parseUnits(flow, 18), nftAddress, curDao.currency);
     console.log(tx);
     console.log(tx.toString());
-    poolMasterContract.on('TapCreated', (poolName, senderAddress, poolAddress, nftAddress, currency) => {
+    poolMasterContract.on('PoolCreated', (poolName, senderAddress, poolAddress, nftAddress, currency) => {
       console.log(poolName, senderAddress, poolAddress, nftAddress, currency);
       tempPoolAddress = poolAddress;
       setPooAddrs(tempPoolAddress);
@@ -62,30 +63,6 @@ export default function Dao() {
     let setPoolAddress = await fluxpayContract.setPoolAddress(curDaoIndex, tempPoolAddress);
     console.log(setPoolAddress);
   }
-
-  const createIDA = async () => {
-    try {
-        const chain = EvmChain.MUMBAI;
-
-        const address = nftAddress;
-
-        await Moralis.start({
-          apiKey: process.env.NEXT_PUBLIC_MORALIS.toString(), // Application id from moralis.io
-        });
-
-        const response = await Moralis.EvmApi.nft.getNFTOwners({
-            address,
-            chain,
-        });
-
-        console.log(response?.result);
-    } catch (e) {
-        console.error(e);
-    }
-
-  }
-
-  
   
   const fillPoolAddress = async (flowRate) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -157,7 +134,12 @@ export default function Dao() {
   const topUpPool = async (flow) => {
     const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider);
 
-    let tx = await poolContract.topUpTap(Number(flow), {
+    const tempAmount = ethers.utils.parseEther(String(flow));
+    const tokenContract = new ethers.Contract(curDao.currency, Approve_ABI, signer || provider);
+    const approveTx = await tokenContract.approve(curDao.poolAddress, tempAmount);
+    await approveTx.wait();
+
+    let tx = await poolContract.topUpPool(Number(flow), {
       gasLimit: 5000000,
     });
     console.log(tx);
@@ -201,7 +183,7 @@ export default function Dao() {
       gasLimit: 5000000,
     });
 
-    let tx = await poolContract.activateTap();
+    let tx = await poolContract.activatePool();
     console.log(tx);
   }
 

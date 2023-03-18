@@ -1,1 +1,1021 @@
-export const PoolABI = [{"inputs":[],"name":"BulkClaimsPaused","type":"error"},{"inputs":[{"internalType":"address","name":"holder","type":"address"}],"name":"HolderStreamsNotFound","type":"error"},{"inputs":[],"name":"IneligibleClaim","type":"error"},{"inputs":[{"internalType":"address","name":"terminator","type":"address"}],"name":"NoEmergency","type":"error"},{"inputs":[{"internalType":"address","name":"terminator","type":"address"}],"name":"NotHost","type":"error"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"NotOwnerOfNFT","type":"error"},{"inputs":[],"name":"NotTapCreator","type":"error"},{"inputs":[{"internalType":"int96","name":"ratePerNFT","type":"int96"}],"name":"SameClaimRate","type":"error"},{"inputs":[{"internalType":"int96","name":"ratePerNFT","type":"int96"}],"name":"SameTapRate","type":"error"},{"inputs":[{"internalType":"address","name":"prevHolder","type":"address"}],"name":"StreamAdjustmentFailedInReinstate","type":"error"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"StreamAlreadyClaimed","type":"error"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"StreamNotFound","type":"error"},{"inputs":[{"internalType":"address","name":"prevHolder","type":"address"},{"internalType":"address","name":"currHolder","type":"address"}],"name":"StreamsAdjustmentsFailed","type":"error"},{"inputs":[{"internalType":"address","name":"prevHolder","type":"address"}],"name":"StreamsAlreadyReinstated","type":"error"},{"inputs":[],"name":"TapActive","type":"error"},{"inputs":[{"internalType":"uint256","name":"currTapBalance","type":"uint256"},{"internalType":"uint256","name":"reqTapBalance","type":"uint256"}],"name":"TapBalanceInsufficient","type":"error"},{"inputs":[],"name":"TapExists","type":"error"},{"inputs":[],"name":"TapInactive","type":"error"},{"inputs":[{"internalType":"uint256","name":"remainingAmount","type":"uint256"},{"internalType":"uint256","name":"minAmountRequried","type":"uint256"}],"name":"TapMinAmountLimit","type":"error"},{"inputs":[],"name":"TapNotFound","type":"error"},{"inputs":[],"name":"TransferFailed","type":"error"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"address","name":"terminator","type":"address"}],"name":"WrongStreamCloseAttempt","type":"error"},{"inputs":[],"name":"ZeroAddress","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"holder","type":"address"}],"name":"EmergencyCloseInitiated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint8","name":"version","type":"uint8"}],"name":"Initialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"claimant","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"StreamClaimedById","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"holder","type":"address"},{"indexed":false,"internalType":"int96","name":"oldRatePerNFT","type":"int96"},{"indexed":false,"internalType":"int96","name":"newRatePerNFT","type":"int96"}],"name":"StreamsAdjusted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"claimant","type":"address"},{"indexed":false,"internalType":"int96","name":"oldStreamRate","type":"int96"},{"indexed":false,"internalType":"int96","name":"newStreamRate","type":"int96"}],"name":"StreamsClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"holder","type":"address"},{"indexed":false,"internalType":"int96","name":"numStreams","type":"int96"},{"indexed":false,"internalType":"int96","name":"newOutStreamRate","type":"int96"},{"indexed":false,"internalType":"int96","name":"ratePerNFT","type":"int96"}],"name":"StreamsReinstated","type":"event"},{"anonymous":false,"inputs":[],"name":"TapActivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"name","type":"string"},{"indexed":false,"internalType":"address","name":"creator","type":"address"},{"indexed":true,"internalType":"address","name":"nft","type":"address"},{"indexed":true,"internalType":"address","name":"superToken","type":"address"},{"indexed":false,"internalType":"uint96","name":"ratePerNFT","type":"uint96"}],"name":"TapCreated","type":"event"},{"anonymous":false,"inputs":[],"name":"TapDeactivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"streamToken","type":"address"},{"indexed":false,"internalType":"uint256","name":"drainAmount","type":"uint256"}],"name":"TapDrained","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"int96","name":"oldRatePerNFT","type":"int96"},{"indexed":false,"internalType":"int96","name":"newRatePerNFT","type":"int96"}],"name":"TapRateChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"superToken","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"TapToppedUp","type":"event"},{"inputs":[],"name":"CREATOR","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"HOST","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"NFT","outputs":[{"internalType":"contract IERC721","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"STREAM_TOKEN","outputs":[{"internalType":"contract ISuperToken","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"activateTap","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"active","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_holder","type":"address"}],"name":"adjustCurrentStreams","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"contract ISuperToken","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"afterAgreementCreated","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"contract ISuperToken","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"bytes","name":"_agreementData","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"_ctx","type":"bytes"}],"name":"afterAgreementTerminated","outputs":[{"internalType":"bytes","name":"_newCtx","type":"bytes"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"contract ISuperToken","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"afterAgreementUpdated","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"contract ISuperToken","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"beforeAgreementCreated","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"contract ISuperToken","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"beforeAgreementTerminated","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"contract ISuperToken","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"beforeAgreementUpdated","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint96","name":"_newRatePerNFT","type":"uint96"}],"name":"changeRate","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_tokenId","type":"uint256"}],"name":"claimStream","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_tokenId","type":"uint256"}],"name":"closeStream","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"deactivateTap","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"drainTap","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_holder","type":"address"}],"name":"emergencyCloseStreams","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"address","name":"_host","type":"address"},{"internalType":"address","name":"_creator","type":"address"},{"internalType":"uint96","name":"_ratePerNFT","type":"uint96"},{"internalType":"contract IcfaV1Forwarder","name":"_cfaV1Forwarder","type":"address"},{"internalType":"contract IERC721","name":"_nft","type":"address"},{"internalType":"contract ISuperToken","name":"_streamToken","type":"address"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"isCritical","outputs":[{"internalType":"bool","name":"_status","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ratePerNFT","outputs":[{"internalType":"int96","name":"","type":"int96"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_prevHolder","type":"address"}],"name":"reinstateStreams","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenIdHolders","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"topUpTap","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+export const PoolABI = [
+  {
+    "type": "error",
+    "name": "BulkClaimsPaused",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "HolderStreamsNotFound",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "holder",
+        "internalType": "address"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "IneligibleClaim",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "NoEmergency",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "terminator",
+        "internalType": "address"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotHost",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "terminator",
+        "internalType": "address"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotOwnerOfNFT",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "tokenId",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotPoolCreator",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "PoolActive",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "PoolBalanceInsufficient",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "currPoolBalance",
+        "internalType": "uint256"
+      },
+      {
+        "type": "uint256",
+        "name": "reqPoolBalance",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "PoolExists",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "PoolInactive",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "PoolMinAmountLimit",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "remainingAmount",
+        "internalType": "uint256"
+      },
+      {
+        "type": "uint256",
+        "name": "minAmountRequried",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "PoolNotFound",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "SameClaimRate",
+    "inputs": [
+      {
+        "type": "int96",
+        "name": "ratePerNFT",
+        "internalType": "int96"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "SamePoolRate",
+    "inputs": [
+      {
+        "type": "int96",
+        "name": "ratePerNFT",
+        "internalType": "int96"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "StreamAdjustmentFailedInReinstate",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "prevHolder",
+        "internalType": "address"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "StreamAlreadyClaimed",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "tokenId",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "StreamNotFound",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "tokenId",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "StreamsAdjustmentsFailed",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "prevHolder",
+        "internalType": "address"
+      },
+      {
+        "type": "address",
+        "name": "currHolder",
+        "internalType": "address"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "StreamsAlreadyReinstated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "prevHolder",
+        "internalType": "address"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "TransferFailed",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "WrongStreamCloseAttempt",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "tokenId",
+        "internalType": "uint256"
+      },
+      {
+        "type": "address",
+        "name": "terminator",
+        "internalType": "address"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "ZeroAddress",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "event",
+    "name": "EmergencyCloseInitiated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "holder",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      {
+        "type": "uint8",
+        "name": "version",
+        "indexed": false,
+        "internalType": "uint8"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PoolActivated",
+    "inputs": [],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PoolCreated",
+    "inputs": [
+      {
+        "type": "string",
+        "name": "name",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "type": "address",
+        "name": "creator",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "type": "address",
+        "name": "nft",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "address",
+        "name": "superToken",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "uint96",
+        "name": "ratePerNFT",
+        "indexed": false,
+        "internalType": "uint96"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PoolDeactivated",
+    "inputs": [],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PoolDrained",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "streamToken",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "uint256",
+        "name": "drainAmount",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PoolRateChanged",
+    "inputs": [
+      {
+        "type": "int96",
+        "name": "oldRatePerNFT",
+        "indexed": false,
+        "internalType": "int96"
+      },
+      {
+        "type": "int96",
+        "name": "newRatePerNFT",
+        "indexed": false,
+        "internalType": "int96"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PoolToppedUp",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "superToken",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "uint256",
+        "name": "amount",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "StreamClaimedById",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "claimant",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "uint256",
+        "name": "tokenId",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "StreamsAdjusted",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "holder",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "int96",
+        "name": "oldRatePerNFT",
+        "indexed": false,
+        "internalType": "int96"
+      },
+      {
+        "type": "int96",
+        "name": "newRatePerNFT",
+        "indexed": false,
+        "internalType": "int96"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "StreamsClaimed",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "claimant",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "int96",
+        "name": "oldStreamRate",
+        "indexed": false,
+        "internalType": "int96"
+      },
+      {
+        "type": "int96",
+        "name": "newStreamRate",
+        "indexed": false,
+        "internalType": "int96"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "StreamsReinstated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "holder",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "type": "int96",
+        "name": "numStreams",
+        "indexed": false,
+        "internalType": "int96"
+      },
+      {
+        "type": "int96",
+        "name": "newOutStreamRate",
+        "indexed": false,
+        "internalType": "int96"
+      },
+      {
+        "type": "int96",
+        "name": "ratePerNFT",
+        "indexed": false,
+        "internalType": "int96"
+      }
+    ],
+    "outputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "function",
+    "name": "CREATOR",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "HOST",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "NFT",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract IERC721"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "STREAM_TOKEN",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract ISuperToken"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "activatePool",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "active",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "adjustCurrentStreams",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_holder",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "afterAgreementCreated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract ISuperToken"
+      },
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      },
+      {
+        "type": "bytes32",
+        "name": "",
+        "internalType": "bytes32"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "afterAgreementTerminated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract ISuperToken"
+      },
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      },
+      {
+        "type": "bytes32",
+        "name": "",
+        "internalType": "bytes32"
+      },
+      {
+        "type": "bytes",
+        "name": "_agreementData",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "_ctx",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes",
+        "name": "_newCtx",
+        "internalType": "bytes"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "afterAgreementUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract ISuperToken"
+      },
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      },
+      {
+        "type": "bytes32",
+        "name": "",
+        "internalType": "bytes32"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "beforeAgreementCreated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract ISuperToken"
+      },
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      },
+      {
+        "type": "bytes32",
+        "name": "",
+        "internalType": "bytes32"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "beforeAgreementTerminated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract ISuperToken"
+      },
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      },
+      {
+        "type": "bytes32",
+        "name": "",
+        "internalType": "bytes32"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "beforeAgreementUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract ISuperToken"
+      },
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      },
+      {
+        "type": "bytes32",
+        "name": "",
+        "internalType": "bytes32"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      },
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes",
+        "name": "",
+        "internalType": "bytes"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "changeRate",
+    "inputs": [
+      {
+        "type": "uint96",
+        "name": "_newRatePerNFT",
+        "internalType": "uint96"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "claimStream",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_tokenId",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "closeStream",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_tokenId",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "deactivatePool",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "drainPool",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_amount",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "emergencyCloseStreams",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_holder",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "inputs": [
+      {
+        "type": "string",
+        "name": "_name",
+        "internalType": "string"
+      },
+      {
+        "type": "address",
+        "name": "_host",
+        "internalType": "address"
+      },
+      {
+        "type": "address",
+        "name": "_creator",
+        "internalType": "address"
+      },
+      {
+        "type": "uint96",
+        "name": "_ratePerNFT",
+        "internalType": "uint96"
+      },
+      {
+        "type": "address",
+        "name": "_cfaV1Forwarder",
+        "internalType": "contract IcfaV1Forwarder"
+      },
+      {
+        "type": "address",
+        "name": "_nft",
+        "internalType": "contract IERC721"
+      },
+      {
+        "type": "address",
+        "name": "_streamToken",
+        "internalType": "contract ISuperToken"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "isCritical",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "_status",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "name",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "string",
+        "name": "",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "ratePerNFT",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "int96",
+        "name": "",
+        "internalType": "int96"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "reinstateStreams",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_prevHolder",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "tokenIdHolders",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "topUpPool",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_amount",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  }
+];

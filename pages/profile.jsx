@@ -5,7 +5,7 @@ import { useSigner, useProvider, useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import { useState, useEffect } from 'react';
 import { FluxPayABI } from '../ABIs/Fluxpay';
-import { fluxpay_address } from '../Addresses';
+import { Fluxpay_address } from '../Addresses';
 
 export default function Profile() {
   const { data: signer } = useSigner();
@@ -14,7 +14,7 @@ export default function Profile() {
   const [daos, setDaos] = useState([]);
 
   const getMyDaos = async () => {
-    const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
+    const fluxpayContract = new ethers.Contract(Fluxpay_address, FluxPayABI, signer || provider);
     let myDaos = await fluxpayContract.getDaos();
     console.log(myDaos);
     setDaos(myDaos);

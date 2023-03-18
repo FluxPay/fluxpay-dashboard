@@ -4,7 +4,7 @@ import { useSigner, useProvider, useAccount } from 'wagmi'
 import { ethers } from 'ethers';
 import { useState, useEffect } from 'react';
 import { FluxPayABI } from '../ABIs/Fluxpay';
-import { fluxpay_address } from '../Addresses/index';
+import { Fluxpay_address } from '../Addresses/index';
 import * as PushAPI from '@pushprotocol/restapi';
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
   const [daos, setDaos] = useState([]);
 
   const getRegisteredDaos = async () => {
-    const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, signer || provider);
+    const fluxpayContract = new ethers.Contract(Fluxpay_address, FluxPayABI, signer || provider);
     let registeredDaos = await fluxpayContract.getDaos();
     console.log(registeredDaos);
     setDaos(registeredDaos);

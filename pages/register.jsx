@@ -2,7 +2,7 @@ import Head from 'next/head'
 import {useState} from 'react';
 import { useSigner, useProvider, useAccount } from 'wagmi'
 import { FluxPayABI } from '../ABIs/Fluxpay';
-import { fluxpay_address } from '../Addresses';
+import { Fluxpay_address } from '../Addresses';
 import { ethers } from 'ethers';
 import * as PushAPI from '@pushprotocol/restapi';
 import Spinner from '../components/Spinner';
@@ -56,7 +56,7 @@ export default function Register() {
   const submitForm = async () => {
     try {
       setLoading(true)
-      const fluxpayContract = new ethers.Contract(fluxpay_address, FluxPayABI, Psigner || provider);
+      const fluxpayContract = new ethers.Contract(Fluxpay_address, FluxPayABI, Psigner || provider);
       console.log('Creating a DAO...');
       let tx = await fluxpayContract.createDao(address, name, desc, image, currency);
       let rx = await tx.wait();
