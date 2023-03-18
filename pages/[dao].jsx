@@ -10,6 +10,8 @@ import Moralis  from 'moralis';
 import { EvmChain } from '@moralisweb3/evm-utils';
 import { Framework } from "@superfluid-finance/sdk-core";
 import { Approve_ABI } from "../ABIs/Approve";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Dao() {
   const router = useRouter()
@@ -52,6 +54,7 @@ export default function Dao() {
     let tx = await poolMasterContract.createPool(curDao.title, ethers.utils.parseUnits(flow, 18), nftAddress, curDao.currency);
     console.log(tx);
     console.log(tx.toString());
+    toast("Pool created successfully!");
     poolMasterContract.on('PoolCreated', (poolName, senderAddress, poolAddress, nftAddress, currency) => {
       console.log(poolName, senderAddress, poolAddress, nftAddress, currency);
       tempPoolAddress = poolAddress;
@@ -62,6 +65,7 @@ export default function Dao() {
   const setPooAddrs = async (tempPoolAddress) => {
     let setPoolAddress = await fluxpayContract.setPoolAddress(curDaoIndex, tempPoolAddress);
     console.log(setPoolAddress);
+    toast("Set Pool address of DAO successfully!");
   }
   
   const fillPoolAddress = async (flowRate) => {
@@ -102,10 +106,12 @@ export default function Dao() {
         `Congrats - you've just created a money stream!
       `
       );
+      toast("Congrats - you've just created a money stream!")
     } catch (error) {
       console.log(
         "Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!"
       );
+      toast("Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!")
       console.error(error);
     }
   }
@@ -169,13 +175,13 @@ export default function Dao() {
   }, [address])
 
   const claim = async () => {
-    const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer || provider)
+    const poolContract = new ethers.Contract(curDao.poolAddress, PoolABI, signer)
 
     let tx = await poolContract.claimStream(Number(tokenID), {
       gasLimit: 5000000,
     })
     console.log(tx)
-
+    toast("Claimed successfully!");
   }
 
   const activatePool = async ()=>  {
@@ -185,6 +191,7 @@ export default function Dao() {
 
     let tx = await poolContract.activatePool();
     console.log(tx);
+    toast("Pool activated successfully!");
   }
 
   return (
